@@ -39,8 +39,8 @@
         android:layout_height="wrap_content"
         android:text="+"
         android:id="@+id/plus"
-        android:layout_marginBottom="55dp"
-        android:layout_above="@+id/temp"
-        android:layout_alignStart="@+id/minus" />
+        android:layout_alignBaseline="@+id/temp"
+        android:layout_alignBottom="@+id/temp"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
