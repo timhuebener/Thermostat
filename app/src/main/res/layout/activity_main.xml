@@ -19,23 +19,25 @@
     <!--Top horizontal layout containing 2 vertical layouts.-->
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:orientation="horizontal"
         android:layout_gravity="top">
 
         <!--The left linear layout that displays the actual temperature-->
         <LinearLayout
-            android:layout_width="180dp"
+            android:layout_width="280dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_gravity="left">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/textView2"
-                android:text="Actual"
-                android:gravity="center"/>
+                android:text="20 &#x2103;"
+                android:layout_gravity="center"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="80dp"/>
 
 
 
@@ -46,7 +48,8 @@
         <LinearLayout
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_vertical|right">
 
             <Button
                 android:layout_width="wrap_content"
