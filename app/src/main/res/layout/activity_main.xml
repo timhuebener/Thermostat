@@ -13,7 +13,8 @@
     tools:context="thermocompany.thermostat.MainActivity"
     android:weightSum="1"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/Dagwallpaper2">
 
 
     <!--Top horizontal layout containing 2 vertical layouts.-->
@@ -37,7 +38,8 @@
                 android:text="20 &#x2103;"
                 android:layout_gravity="center"
                 android:gravity="center_vertical|center_horizontal"
-                android:textSize="80dp"/>
+                android:textSize="80dp"
+                android:textColor="#000000"/>
 
 
 
