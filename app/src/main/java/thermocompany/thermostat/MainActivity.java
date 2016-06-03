@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        HeatingSystem.BASE_ADDRESS = "http://pcwin889.win.tue.nl/2id40-ws/60";
+        HeatingSystem.BASE_ADDRESS = "http://wwwis.win.tue.nl/2id40-ws/60";
         temp = (TextView)findViewById(R.id.temp);
         plus = (Button)findViewById(R.id.plus);
         minus = (Button)findViewById(R.id.minus);
