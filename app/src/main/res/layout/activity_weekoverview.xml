@@ -19,7 +19,8 @@
         android:textSize="30sp"
         android:layout_margin="10dp"
         android:textAllCaps="false"
-        android:backgroundTint="#FFFFFF"/>
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true" />
 
     <Button
         android:layout_width="180dp"
@@ -28,7 +29,8 @@
         android:textSize="30sp"
         android:layout_margin="10dp"
         android:textAllCaps="false"
-        android:backgroundTint="#FFFFFF"/>
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true" />
 
     <Button
         android:layout_width="180dp"
@@ -37,7 +39,8 @@
         android:textSize="30sp"
         android:layout_margin="10dp"
         android:textAllCaps="false"
-        android:backgroundTint="#FFFFFF"/>
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true" />
 
     <Button
         android:layout_width="180dp"
@@ -46,7 +49,8 @@
         android:textSize="30sp"
         android:layout_margin="10dp"
         android:textAllCaps="false"
-        android:backgroundTint="#FFFFFF"/>
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true" />
 
     <Button
         android:layout_width="180dp"
@@ -55,7 +59,8 @@
         android:textSize="30sp"
         android:layout_margin="10dp"
         android:textAllCaps="false"
-        android:backgroundTint="#FFFFFF"/>
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true" />
 
     <Button
         android:layout_width="180dp"
@@ -64,7 +69,8 @@
         android:textSize="30sp"
         android:layout_margin="10dp"
         android:textAllCaps="false"
-        android:backgroundTint="#FFFFFF"/>
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true" />
 
     <Button
         android:layout_width="180dp"
@@ -73,7 +79,8 @@
         android:textSize="30sp"
         android:layout_margin="10dp"
         android:textAllCaps="false"
-        android:backgroundTint="#FFFFFF"/>
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true" />
 
 
 

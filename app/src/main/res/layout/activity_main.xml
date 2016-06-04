@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-//Main layout
+<!--Main layout-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,6 +18,8 @@
 
 
     <!--Top horizontal layout containing 2 vertical layouts.-->
+
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="280dp"
@@ -61,7 +63,8 @@
                 android:id="@+id/plus"
                 android:clickable="true"
                 android:padding="10dp"
-                android:backgroundTint="#FFFFFF"/>
+                android:backgroundTint="#FFFFFF"
+                android:longClickable="true" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -78,7 +81,8 @@
                 android:text="-"
                 android:textSize="25sp"
                 android:id="@+id/minus"
-                android:backgroundTint="#FFFFFF"/>
+                android:backgroundTint="#FFFFFF"
+                android:longClickable="true" />
 
 
         </LinearLayout>
@@ -106,7 +110,7 @@
             android:layout_gravity="bottom"
             android:backgroundTint="#FFFFFF"
 
-            />
+            android:clickable="true" />
 
         <Button
             android:layout_width="190dp"
@@ -115,7 +119,8 @@
             android:textSize="30dp"
             android:textAllCaps="false"
             android:text="@string/Schedule"
-            android:backgroundTint="#FFFFFF"/>
+            android:backgroundTint="#FFFFFF"
+            android:clickable="true" />
 
     </LinearLayout>
 
