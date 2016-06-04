@@ -3,4 +3,16 @@
     <string name="Hold">Hold</string>
     <string name="Resume">Resume</string>
     <string name="Schedule">Schedule</string>
+
+    <string name="Monday">Monday</string>
+    <string name="Tuesday">Tuesday</string>
+    <string name="Wednesday">Wednesday</string>
+    <string name="Thursday">Thursday</string>
+    <string name="Friday">Friday</string>
+    <string name="Saturday">Saturday</string>
+    <string name="Sunday">Sunday</string>
+
+
+
+
 </resources>
