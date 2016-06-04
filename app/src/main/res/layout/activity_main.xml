@@ -14,13 +14,13 @@
     android:weightSum="1"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="@drawable/Dagwallpaper2">
+    android:background="@drawable/Daybackground">
 
 
     <!--Top horizontal layout containing 2 vertical layouts.-->
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_height="280dp"
         android:orientation="horizontal"
         android:layout_gravity="top">
 
@@ -39,7 +39,7 @@
                 android:layout_gravity="center"
                 android:gravity="center_vertical|center_horizontal"
                 android:textSize="80dp"
-                android:textColor="#000000"/>
+                android:textColor="@color/white"/>
 
 
 
@@ -57,14 +57,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+"
-                android:id="@+id/plus" />
+                android:id="@+id/plus"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Target"
-                android:id="@+id/temp" />
+                android:text="Target &#x2103;"
+                android:id="@+id/temp"
+                android:textColor="@color/white"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,6 +79,34 @@
 
     </LinearLayout>
 
+
+    <!-- The bottom linear layout containing the hold temp and schedule buttons -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom">
+
+
+        <ToggleButton
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:textOn="@string/Resume"
+            android:textOff="@string/Hold"
+            android:textSize="30dp"
+            android:textAllCaps="false"
+            android:id="@+id/BtnHold"
+            android:layout_gravity="bottom"
+            />
+
+        <Button
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:textSize="30dp"
+            android:textAllCaps="false"
+            android:text="@string/Schedule"/>
+    </LinearLayout>
 
 
 </LinearLayout>
