@@ -57,9 +57,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+"
+                android:textSize="25sp"
                 android:id="@+id/plus"
                 android:clickable="true"
-                android:padding="10dp"/>
+                android:padding="10dp"
+                android:backgroundTint="#FFFFFF"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -74,7 +76,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
-                android:id="@+id/minus" />
+                android:textSize="25sp"
+                android:id="@+id/minus"
+                android:backgroundTint="#FFFFFF"/>
 
 
         </LinearLayout>
@@ -100,6 +104,8 @@
             android:textAllCaps="false"
             android:id="@+id/BtnHold"
             android:layout_gravity="bottom"
+            android:backgroundTint="#FFFFFF"
+
             />
 
         <Button
@@ -108,7 +114,9 @@
             android:layout_gravity="bottom|right"
             android:textSize="30dp"
             android:textAllCaps="false"
-            android:text="@string/Schedule"/>
+            android:text="@string/Schedule"
+            android:backgroundTint="#FFFFFF"/>
+
     </LinearLayout>
 
 

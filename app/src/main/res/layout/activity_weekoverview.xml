@@ -18,7 +18,8 @@
         android:text="@string/Monday"
         android:textSize="30sp"
         android:layout_margin="10dp"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:backgroundTint="#FFFFFF"/>
 
     <Button
         android:layout_width="180dp"
@@ -26,7 +27,8 @@
         android:text="@string/Tuesday"
         android:textSize="30sp"
         android:layout_margin="10dp"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:backgroundTint="#FFFFFF"/>
 
     <Button
         android:layout_width="180dp"
@@ -34,7 +36,8 @@
         android:text="@string/Wednesday"
         android:textSize="30sp"
         android:layout_margin="10dp"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:backgroundTint="#FFFFFF"/>
 
     <Button
         android:layout_width="180dp"
@@ -42,7 +45,8 @@
         android:text="@string/Thursday"
         android:textSize="30sp"
         android:layout_margin="10dp"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:backgroundTint="#FFFFFF"/>
 
     <Button
         android:layout_width="180dp"
@@ -50,7 +54,8 @@
         android:text="@string/Friday"
         android:textSize="30sp"
         android:layout_margin="10dp"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:backgroundTint="#FFFFFF"/>
 
     <Button
         android:layout_width="180dp"
@@ -58,7 +63,8 @@
         android:text="@string/Saturday"
         android:textSize="30sp"
         android:layout_margin="10dp"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:backgroundTint="#FFFFFF"/>
 
     <Button
         android:layout_width="180dp"
@@ -66,7 +72,8 @@
         android:text="@string/Sunday"
         android:textSize="30sp"
         android:layout_margin="10dp"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:backgroundTint="#FFFFFF"/>
 
 
 
