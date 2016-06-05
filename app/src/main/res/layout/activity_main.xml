@@ -14,7 +14,7 @@
     android:weightSum="1"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="@drawable/Daybackground">
+    android:background="@drawable/daybackground">
 
 
     <!--Top horizontal layout containing 2 vertical layouts.-->

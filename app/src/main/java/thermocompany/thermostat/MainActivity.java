@@ -1,5 +1,6 @@
 package thermocompany.thermostat;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,7 @@ import java.net.ConnectException;
 
 import util.*;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     TextView temp;
     double currentTemperature;
