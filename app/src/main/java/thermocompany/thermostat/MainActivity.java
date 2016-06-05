@@ -49,9 +49,6 @@ public class MainActivity extends Activity {
         });
 
 
-
-
-
         // this part sets the initial values of the target and current temperature
         new Thread(new Runnable() {
             @Override

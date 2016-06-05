@@ -20,7 +20,8 @@
         android:layout_margin="10dp"
         android:textAllCaps="false"
         android:backgroundTint="#FFFFFF"
-        android:clickable="true" />
+        android:clickable="true"
+        android:id="@+id/monday"/>
 
     <Button
         android:layout_width="180dp"
@@ -30,7 +31,8 @@
         android:layout_margin="10dp"
         android:textAllCaps="false"
         android:backgroundTint="#FFFFFF"
-        android:clickable="true" />
+        android:clickable="true"
+        android:id="@+id/tuesday"/>
 
     <Button
         android:layout_width="180dp"
@@ -40,7 +42,8 @@
         android:layout_margin="10dp"
         android:textAllCaps="false"
         android:backgroundTint="#FFFFFF"
-        android:clickable="true" />
+        android:clickable="true"
+        android:id="@+id/wednesday"/>
 
     <Button
         android:layout_width="180dp"
@@ -50,7 +53,8 @@
         android:layout_margin="10dp"
         android:textAllCaps="false"
         android:backgroundTint="#FFFFFF"
-        android:clickable="true" />
+        android:clickable="true"
+        android:id="@+id/thursday"/>
 
     <Button
         android:layout_width="180dp"
@@ -60,7 +64,8 @@
         android:layout_margin="10dp"
         android:textAllCaps="false"
         android:backgroundTint="#FFFFFF"
-        android:clickable="true" />
+        android:clickable="true"
+        android:id="@+id/friday"/>
 
     <Button
         android:layout_width="180dp"
@@ -70,7 +75,8 @@
         android:layout_margin="10dp"
         android:textAllCaps="false"
         android:backgroundTint="#FFFFFF"
-        android:clickable="true" />
+        android:clickable="true"
+        android:id="@+id/saturday"/>
 
     <Button
         android:layout_width="180dp"
@@ -80,7 +86,8 @@
         android:layout_margin="10dp"
         android:textAllCaps="false"
         android:backgroundTint="#FFFFFF"
-        android:clickable="true" />
+        android:clickable="true"
+        android:id="@+id/sunday"/>
 
 
 
