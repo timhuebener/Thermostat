@@ -13,8 +13,8 @@
     tools:context="thermocompany.thermostat.MainActivity"
     android:weightSum="1"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
     android:orientation="vertical"
+
     android:background="@drawable/daybackground">
 
 
