@@ -92,7 +92,7 @@ public class MainActivity extends Activity {
             }
         });
 
-
+        //TODO get the longClickListeners to work
         //Don't know why this doesn't work
 
         /*plus.setOnLongClickListener(new View.OnLongClickListener(){
