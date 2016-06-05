@@ -128,7 +128,8 @@
             android:text="@string/Schedule"
             android:backgroundTint="#FFFFFF"
             android:clickable="true"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:id="@+id/Schedule" />
 
     </LinearLayout>
 

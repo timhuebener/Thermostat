@@ -1,5 +1,6 @@
 package thermocompany.thermostat;
 
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,18 @@ public class MainActivity extends Activity {
         tempCurrent = (TextView)findViewById(R.id.tempActual);
         plus = (Button)findViewById(R.id.plus);
         minus = (Button)findViewById(R.id.minus);
+
+        Button Schedule = (Button)findViewById(R.id.Schedule);
+
+
+        Schedule.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent weekIntent = new Intent (view.getContext(), Weekoverview.class);
+                startActivity(weekIntent);
+            }
+        });
+
 
 
 
