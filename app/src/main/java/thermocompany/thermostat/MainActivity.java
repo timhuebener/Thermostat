@@ -1,5 +1,6 @@
 package thermocompany.thermostat;
 
+import android.os.CountDownTimer;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,10 +16,14 @@ import util.*;
 
 public class MainActivity extends Activity {
 
-    TextView temp;
+    TextView tempTarget;
+    TextView tempCurrent;
+    double targetTemperature;
     double currentTemperature;
     Button plus;
     Button minus;
+    CountDownTimer refreshTimer;
+    Thread mainThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,20 +31,23 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         HeatingSystem.BASE_ADDRESS = "http://wwwis.win.tue.nl/2id40-ws/60";
-        temp = (TextView)findViewById(R.id.temp);
+        tempTarget = (TextView)findViewById(R.id.temp);
+        tempCurrent = (TextView)findViewById(R.id.tempActual);
         plus = (Button)findViewById(R.id.plus);
         minus = (Button)findViewById(R.id.minus);
 
 
 
 
-        // for some internet things we need to use Threads, don't know why
+        // this part sets the initial values of the target and current temperature
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
                     currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
-                    temp.setText(String.valueOf(currentTemperature));
+                    tempTarget.setText(String.valueOf(targetTemperature));
+                    tempCurrent.setText(String.valueOf(currentTemperature));
                 } catch (ConnectException e) {
                     e.printStackTrace();
                 }
@@ -48,19 +56,21 @@ public class MainActivity extends Activity {
 
 
 
+
+
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentTemperature = (currentTemperature*10+1)/10; // to prevent rounding issues
+                targetTemperature = (targetTemperature*10+1)/10; // to prevent rounding issues
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            HeatingSystem.put("currentTemperature", String.valueOf(currentTemperature));
-                            temp.post(new Runnable() {
+                            HeatingSystem.put("currentTemperature", String.valueOf(targetTemperature));
+                            tempTarget.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    temp.setText(String.valueOf(currentTemperature));
+                                    tempTarget.setText(String.valueOf(targetTemperature));
 
                                 }
                             });
@@ -75,16 +85,16 @@ public class MainActivity extends Activity {
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentTemperature = (currentTemperature*10-1)/10;
+                targetTemperature = (targetTemperature*10-1)/10;
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            HeatingSystem.put("currentTemperature", String.valueOf(currentTemperature));
-                            temp.post(new Runnable() {
+                            HeatingSystem.put("currentTemperature", String.valueOf(targetTemperature));
+                            tempTarget.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    temp.setText(String.valueOf(currentTemperature));
+                                    tempTarget.setText(String.valueOf(targetTemperature));
 
                                 }
                             });
@@ -95,5 +105,32 @@ public class MainActivity extends Activity {
                 }).start();
             }
         });
+
+        refreshTimer = new CountDownTimer(1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                refreshCurrent();
+            }
+
+        }.start();
+    }
+
+    void refreshCurrent() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
+                    refreshTimer.start();
+                } catch (ConnectException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        tempCurrent.setText(String.valueOf(currentTemperature));
     }
 }
