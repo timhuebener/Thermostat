@@ -14,7 +14,8 @@
     android:weightSum="1"
     android:gravity="center_horizontal"
     android:orientation="vertical">
-    <!--android:background="@drawable/Daybackground">-->
+    android:orientation="vertical"
+    android:background="@drawable/daybackground">
 
 
     <!--Top horizontal layout containing 2 vertical layouts.-->
@@ -100,7 +101,7 @@
 
 
         <ToggleButton
-            android:layout_width="190dp"
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:textOn="@string/Resume"
             android:textOff="@string/Hold"
@@ -113,14 +114,15 @@
             android:clickable="true" />
 
         <Button
-            android:layout_width="190dp"
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:textSize="30dp"
             android:textAllCaps="false"
             android:text="@string/Schedule"
             android:backgroundTint="#FFFFFF"
-            android:clickable="true" />
+            android:clickable="true"
+            android:gravity="center"/>
 
     </LinearLayout>
 
