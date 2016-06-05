@@ -100,7 +100,7 @@
 
 
         <ToggleButton
-            android:layout_width="190dp"
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:textOn="@string/Resume"
             android:textOff="@string/Hold"
@@ -113,14 +113,15 @@
             android:clickable="true" />
 
         <Button
-            android:layout_width="190dp"
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:textSize="30dp"
             android:textAllCaps="false"
             android:text="@string/Schedule"
             android:backgroundTint="#FFFFFF"
-            android:clickable="true" />
+            android:clickable="true"
+            android:gravity="center"/>
 
     </LinearLayout>
 
