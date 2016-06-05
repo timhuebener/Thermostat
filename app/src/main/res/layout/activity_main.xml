@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--TODO implement settings for the night and day temperatures-->
-<!--TODO current temp should be visible on all activities-->
+<!--TODO implement settings for the night and day temperatures
+    TODO current temp should be visible on all activities
+    TODO Idea: on the main screen, make it visible when the next switch is scheduled-->
 
 <!--Main layout-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
