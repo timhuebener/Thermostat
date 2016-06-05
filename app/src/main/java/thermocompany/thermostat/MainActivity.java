@@ -46,8 +46,8 @@ public class MainActivity extends Activity {
                 try {
                     targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
                     currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
-                    tempTarget.setText(String.valueOf(targetTemperature));
-                    tempCurrent.setText(String.valueOf(currentTemperature));
+                    tempTarget.setText(String.valueOf(targetTemperature)+ "\u2103");
+                    tempCurrent.setText(String.valueOf(currentTemperature)+ "\u2103");
                 } catch (ConnectException e) {
                     e.printStackTrace();
                 }
@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
                             tempTarget.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    tempTarget.setText(String.valueOf(targetTemperature));
+                                    tempTarget.setText(String.valueOf(targetTemperature)+ "\u2103");
 
                                 }
                             });
@@ -81,6 +81,43 @@ public class MainActivity extends Activity {
                 }).start();
             }
         });
+
+
+        //Don't know why this doesn't work
+
+        /*plus.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public void onLongClick(View v){
+                targetTemperature = (targetTemperature*10+1)/10;
+                new Thread(new Runnable(){
+                    @Override
+                    public void run(){
+                        try{
+                            HeatingSystem.put("currentTemperature", String.valueOf(targetTemperature));
+                            tempTarget.post(new Runnable(){
+                                @Override
+                                public void run(){
+                                    tempTarget.setText(String.valueOf(targetTemperature) + " \u2103");
+                                }
+                            });
+
+                        }catch (InvalidInputValueException e){
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                }).start();
+
+            }
+
+        });
+
+        */
+
+
+
+
 
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +131,7 @@ public class MainActivity extends Activity {
                             tempTarget.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    tempTarget.setText(String.valueOf(targetTemperature));
+                                    tempTarget.setText(String.valueOf(targetTemperature)+" \u2103");
 
                                 }
                             });
@@ -125,12 +162,13 @@ public class MainActivity extends Activity {
             public void run() {
                 try {
                     currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
+
                     refreshTimer.start();
                 } catch (ConnectException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-        tempCurrent.setText(String.valueOf(currentTemperature));
+        tempCurrent.setText(String.valueOf(currentTemperature)+" \u2103");
     }
 }
