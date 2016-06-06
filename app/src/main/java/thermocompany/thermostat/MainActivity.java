@@ -53,8 +53,7 @@ public class MainActivity extends Activity {
                 try {
                     targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
                     currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
-                    tempTarget.setText(String.valueOf(targetTemperature)+ "\u2103");
-                    tempCurrent.setText(String.valueOf(currentTemperature)+ "\u2103");
+                    updateText();
                 } catch (ConnectException e) {
                     e.printStackTrace();
                 }
@@ -161,6 +160,11 @@ public class MainActivity extends Activity {
             }
 
         }.start();
+    }
+
+    void updateText() {
+        tempTarget.setText(String.valueOf(targetTemperature)+ "\u2103");
+        tempCurrent.setText(String.valueOf(currentTemperature)+ "\u2103");
     }
 
     void refreshCurrent() {
