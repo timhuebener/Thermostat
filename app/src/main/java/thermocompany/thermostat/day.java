@@ -1,9 +1,10 @@
 package thermocompany.thermostat;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class Day extends AppCompatActivity {
+public class day extends Activity {
 
     String day;
 
