@@ -3,11 +3,13 @@ package thermocompany.thermostat;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
 
 import java.net.ConnectException;
 
@@ -22,6 +24,7 @@ public class MainActivity extends Activity {
     Button plus;
     Button minus;
     CountDownTimer refreshTimer;
+    Thread mainThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,8 @@ public class MainActivity extends Activity {
                 try {
                     targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
                     currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
-                    updateText();
+                    tempTarget.setText(String.valueOf(targetTemperature)+ "\u2103");
+                    tempCurrent.setText(String.valueOf(currentTemperature)+ "\u2103");
                 } catch (ConnectException e) {
                     e.printStackTrace();
                 }
@@ -160,11 +164,6 @@ public class MainActivity extends Activity {
             }
 
         }.start();
-    }
-
-    void updateText() {
-        tempTarget.setText(String.valueOf(targetTemperature)+ "\u2103");
-        tempCurrent.setText(String.valueOf(currentTemperature)+ "\u2103");
     }
 
     void refreshCurrent() {
