@@ -91,7 +91,7 @@ public class Weekoverview extends Activity {
     }
 
     void switchToDay(View view) {
-        Intent dayIntent = new Intent (view.getContext(), Day.class);
+        Intent dayIntent = new Intent (view.getContext(), day.class);
         startActivity(dayIntent);
     }
 
