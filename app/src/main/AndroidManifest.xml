@@ -13,21 +13,15 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Weekoverview"
-            android:screenOrientation="portrait"
-            android:label="Thermostat">
-
-        </activity>
-
-
-
-
-
+            android:label="Thermostat"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Day"></activity>
     </application>
 
 </manifest>

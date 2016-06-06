@@ -1,8 +1,10 @@
 package thermocompany.thermostat;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 public class Weekoverview extends Activity {
@@ -14,6 +16,7 @@ public class Weekoverview extends Activity {
     Button fri;
     Button sat;
     Button sun;
+    static String day;
 
 
     @Override
@@ -29,6 +32,74 @@ public class Weekoverview extends Activity {
         sat = (Button)findViewById(R.id.saturday);
         sun = (Button)findViewById(R.id.sunday);
 
+        mon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToDay(v);
+                setLastClickedDay("Monday");
+            }
+        });
 
+        tue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToDay(v);
+                setLastClickedDay("Tuesday");
+            }
+        });
+
+        wed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToDay(v);
+                setLastClickedDay("Wednesday");
+            }
+        });
+
+        thu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToDay(v);
+                setLastClickedDay("Thursday");
+            }
+        });
+
+        fri.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToDay(v);
+                setLastClickedDay("Friday");
+            }
+        });
+
+        sat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToDay(v);
+                setLastClickedDay("Saturday");
+            }
+        });
+
+        sun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToDay(v);
+                setLastClickedDay("Sunday");
+            }
+        });
+
+    }
+
+    void switchToDay(View view) {
+        Intent dayIntent = new Intent (view.getContext(), Day.class);
+        startActivity(dayIntent);
+    }
+
+    public static String getLastClickedDay() {
+        return day;
+    }
+
+    void setLastClickedDay(String day) {
+        this.day = day;
     }
 }
