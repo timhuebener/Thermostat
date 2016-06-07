@@ -56,8 +56,14 @@ public class MainActivity extends Activity {
                 try {
                     targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
                     currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
-                    tempTarget.setText(String.valueOf(targetTemperature)+ "\u2103");
-                    tempCurrent.setText(String.valueOf(currentTemperature)+ "\u2103");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tempTarget.setText(String.valueOf(targetTemperature)+ "\u2103");
+                            tempCurrent.setText(String.valueOf(currentTemperature)+ "\u2103");
+                        }
+                    });
+
                 } catch (ConnectException e) {
                     e.printStackTrace();
                 }
@@ -80,7 +86,13 @@ public class MainActivity extends Activity {
                             tempTarget.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    tempTarget.setText(String.valueOf(targetTemperature)+ "\u2103");
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            tempTarget.setText(String.valueOf(targetTemperature)+ "\u2103");
+
+                                        }
+                                    });
 
                                 }
                             });
@@ -141,7 +153,13 @@ public class MainActivity extends Activity {
                             tempTarget.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    tempTarget.setText(String.valueOf(targetTemperature)+" \u2103");
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            tempTarget.setText(String.valueOf(targetTemperature)+" \u2103");
+
+                                        }
+                                    });
 
                                 }
                             });
@@ -166,6 +184,15 @@ public class MainActivity extends Activity {
         }.start();
     }
 
+    void updateText() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+    }
+
     void refreshCurrent() {
         new Thread(new Runnable() {
             @Override
@@ -179,6 +206,11 @@ public class MainActivity extends Activity {
                 }
             }
         }).start();
-        tempCurrent.setText(String.valueOf(currentTemperature)+" \u2103");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tempCurrent.setText(String.valueOf(currentTemperature)+" \u2103");
+            }
+        });
     }
 }

@@ -104,10 +104,16 @@ public class day extends Activity {
                 //Collections.sort(dayTimes);
                 //Collections.sort(nightTimes);
 
-                for (int i = 0; i < 5; i++) {
-                    switchesDay[i].setText(dayTimes.get(i));
-                    switchesNight[i].setText(nightTimes.get(i));
-                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < 5; i++) {
+                            switchesDay[i].setText(dayTimes.get(i));
+                            switchesNight[i].setText(nightTimes.get(i));
+                        }
+                    }
+                });
+
             }
         }).start();
     }
