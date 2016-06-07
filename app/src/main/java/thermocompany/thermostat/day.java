@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.net.ConnectException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import util.*;
 
@@ -25,8 +27,11 @@ public class day extends Activity {
     EditText switch7;
     EditText switch8;
     EditText switch9;
-    EditText[] switches;
+    EditText[] switchesNight;
+    EditText[] switchesDay;
     Button retrieve;
+    ArrayList<String> nightTimes;
+    ArrayList<String> dayTimes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +48,11 @@ public class day extends Activity {
         switch8 = (EditText) findViewById(R.id.switch8);
         switch9 = (EditText) findViewById(R.id.switch9);
 
-        switches = new EditText[]{switch0, switch1, switch2, switch3, switch4, switch5, switch6
-        , switch7, switch8, switch9};
+        nightTimes = new ArrayList<>();
+        dayTimes = new ArrayList<>();
+
+        switchesNight = new EditText[]{switch0, switch1, switch2, switch3, switch4};
+        switchesDay = new EditText[]{switch5, switch6, switch7, switch8, switch9};
 
         retrieve = (Button)findViewById(R.id.retrieve);
         retrieve.setOnClickListener(new View.OnClickListener() {
@@ -79,18 +87,22 @@ public class day extends Activity {
                     e.printStackTrace();
                 }
                 for (int i=0; i<10; i++) {
-                    switches[i].setText(wpg.data.get(day).get(i).getTime());
+                    Switch aSwitch = wpg.data.get(day).get(i);
+                    if (aSwitch.getType().equals("night")) {
+                        nightTimes.add(aSwitch.getTime());
+                    }
+                    if (aSwitch.getType().equals("day")) {
+                        dayTimes.add(aSwitch.getTime());
+                    }
                 }
 
-                /*System.out.println(wpg.data.get(day).get(1).getTime());
-                System.out.println(wpg.data.get(day).get(2).getTime());
-                System.out.println(wpg.data.get(day).get(3).getTime());
-                System.out.println(wpg.data.get(day).get(4).getTime());
-                System.out.println(wpg.data.get(day).get(5).getTime());
-                System.out.println(wpg.data.get(day).get(6).getTime());
-                System.out.println(wpg.data.get(day).get(7).getTime());
-                System.out.println(wpg.data.get(day).get(8).getTime());
-                System.out.println(wpg.data.get(day).get(9).getTime());*/
+                //Collections.sort(dayTimes);
+                //Collections.sort(nightTimes);
+
+                for (int i=0; i<5; i++) {
+                    switchesDay[i].setText(dayTimes.get(i));
+                    switchesNight[i].setText(nightTimes.get(i));
+                }
             }
         }).start();
     }
