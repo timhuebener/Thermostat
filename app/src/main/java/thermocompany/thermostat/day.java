@@ -22,33 +22,24 @@ public class day extends Activity {
         HeatingSystem.WEEK_PROGRAM_ADDRESS = HeatingSystem.BASE_ADDRESS + "/weekProgram";
         setTitle(day);
 
+        addSwitch(3, "night", "07:30");
+    }
 
+    void addSwitch(int index, final String dayNight, final String switchTime) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     wpg = HeatingSystem.getWeekProgram();
-                    wpg.setDefault();
                 } catch (ConnectException e) {
                     e.printStackTrace();
                 } catch (CorruptWeekProgramException e) {
                     e.printStackTrace();
                 }
-            }
-        }).start();
-
-        addSwitch();
-    }
-
-    // this does not work, will try to fix
-    void addSwitch() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                wpg.data.get(day).set(5, new Switch("day", true, "07:30"));
+                wpg.data.get(day).set(3, new Switch(dayNight, true, switchTime));
                 HeatingSystem.setWeekProgram(wpg);
             }
-        });
+        }).start();
 
     }
 }
