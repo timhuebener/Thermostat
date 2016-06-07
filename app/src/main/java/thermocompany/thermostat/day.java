@@ -32,6 +32,7 @@ public class day extends Activity {
     Button retrieve;
     ArrayList<String> nightTimes;
     ArrayList<String> dayTimes;
+    Button save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class day extends Activity {
         switch7 = (EditText) findViewById(R.id.switch7);
         switch8 = (EditText) findViewById(R.id.switch8);
         switch9 = (EditText) findViewById(R.id.switch9);
+        save = (Button) findViewById(R.id.save);
 
         nightTimes = new ArrayList<>();
         dayTimes = new ArrayList<>();
@@ -54,7 +56,7 @@ public class day extends Activity {
         switchesNight = new EditText[]{switch0, switch1, switch2, switch3, switch4};
         switchesDay = new EditText[]{switch5, switch6, switch7, switch8, switch9};
 
-        retrieve = (Button)findViewById(R.id.retrieve);
+        retrieve = (Button) findViewById(R.id.retrieve);
         retrieve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,16 +68,19 @@ public class day extends Activity {
         HeatingSystem.WEEK_PROGRAM_ADDRESS = HeatingSystem.BASE_ADDRESS + "/weekProgram";
         setTitle(day);
 
-
-
-        //addSwitch(3, "night", "07:30");
-        //addSwitch(7, "day", "13:00");
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendToServer();
+            }
+        });
+        
         refreshWeekoverview();
     }
 
 
     //TODO: smarter way of retrieving times
-    void refreshWeekoverview () {
+    void refreshWeekoverview() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -86,7 +91,7 @@ public class day extends Activity {
                 } catch (CorruptWeekProgramException e) {
                     e.printStackTrace();
                 }
-                for (int i=0; i<10; i++) {
+                for (int i = 0; i < 10; i++) {
                     Switch aSwitch = wpg.data.get(day).get(i);
                     if (aSwitch.getType().equals("night")) {
                         nightTimes.add(aSwitch.getTime());
@@ -99,7 +104,7 @@ public class day extends Activity {
                 //Collections.sort(dayTimes);
                 //Collections.sort(nightTimes);
 
-                for (int i=0; i<5; i++) {
+                for (int i = 0; i < 5; i++) {
                     switchesDay[i].setText(dayTimes.get(i));
                     switchesNight[i].setText(nightTimes.get(i));
                 }
@@ -107,7 +112,7 @@ public class day extends Activity {
         }).start();
     }
 
-    void addSwitch(int index, final String dayNight, final String switchTime) {
+    void sendToServer() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -118,10 +123,26 @@ public class day extends Activity {
                 } catch (CorruptWeekProgramException e) {
                     e.printStackTrace();
                 }
-                wpg.data.get(day).set(3, new Switch(dayNight, true, switchTime));
+                for (int i = 0; i < 5; i++) {
+                    String time = switchesNight[i].getText().toString();
+
+                    if (time.equals("00:00")) {
+                        wpg.data.get(day).set(i, new Switch("night", false, time));
+                    } else {
+                        wpg.data.get(day).set(i, new Switch("night", true, time));
+                    }
+
+                }
+                for (int i = 5; i < 10; i++) {
+                    String time = switchesDay[i-5].getText().toString();
+                    if (time.equals("00:00")) {
+                        wpg.data.get(day).set(i, new Switch("day", false, time));
+                    } else {
+                        wpg.data.get(day).set(i, new Switch("day", true, time));
+                    }
+                }
                 HeatingSystem.setWeekProgram(wpg);
             }
         }).start();
-
     }
 }

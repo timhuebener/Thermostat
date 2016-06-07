@@ -89,6 +89,17 @@
         android:clickable="true"
         android:id="@+id/sunday"/>
 
+    <Button
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Set Default"
+        android:textSize="30sp"
+        android:layout_margin="5dp"
+        android:textAllCaps="false"
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true"
+        android:id="@+id/setDefault"/>
+
 
 
 
