@@ -1,7 +1,9 @@
 package thermocompany.thermostat;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -42,6 +44,7 @@ public class Weekoverview extends Activity {
         sat = (Button)findViewById(R.id.saturday);
         sun = (Button)findViewById(R.id.sunday);
         setDefault = (Button)findViewById(R.id.setDefault);
+
 
         mon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +105,23 @@ public class Weekoverview extends Activity {
         setDefault.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setDefault();
+                new AlertDialog.Builder(Weekoverview.this)
+                        .setMessage("Are you sure you want to reset the schedule?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                setDefault();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .create().show();
+
+
             }
         });
 

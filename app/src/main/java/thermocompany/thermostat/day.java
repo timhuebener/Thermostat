@@ -33,6 +33,7 @@ public class day extends Activity {
     ArrayList<String> nightTimes;
     ArrayList<String> dayTimes;
     Button save;
+    Button cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class day extends Activity {
         switch8 = (EditText) findViewById(R.id.switch8);
         switch9 = (EditText) findViewById(R.id.switch9);
         save = (Button) findViewById(R.id.save);
+        cancel = (Button) findViewById(R.id.cancel);
 
         nightTimes = new ArrayList<>();
         dayTimes = new ArrayList<>();
@@ -58,6 +60,14 @@ public class day extends Activity {
 
         retrieve = (Button) findViewById(R.id.retrieve);
         retrieve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshWeekoverview();
+            }
+        });
+
+        //TODO: Maybe make local backup instead of retrieving from server
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 refreshWeekoverview();
@@ -74,7 +84,7 @@ public class day extends Activity {
                 sendToServer();
             }
         });
-        
+
         refreshWeekoverview();
     }
 
@@ -140,7 +150,7 @@ public class day extends Activity {
 
                 }
                 for (int i = 5; i < 10; i++) {
-                    String time = switchesDay[i-5].getText().toString();
+                    String time = switchesDay[i - 5].getText().toString();
                     if (time.equals("00:00")) {
                         wpg.data.get(day).set(i, new Switch("day", false, time));
                     } else {
