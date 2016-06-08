@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
@@ -88,6 +89,8 @@ public class day extends Activity {
         localWpg = Memory.getWeekProgram();
         if (localWpg == null) {
             System.out.println("No schedule found on device, retrieving from server");
+            Toast.makeText(getApplicationContext(), "No schedule found on device, " +
+                    "retrieving from server", Toast.LENGTH_LONG).show();
             retrieveFromServer();
         } else {
             System.out.println("Schedule found on device, retrieving from device");
