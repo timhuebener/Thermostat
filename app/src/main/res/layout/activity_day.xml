@@ -78,6 +78,13 @@
             android:id="@+id/cancel"
             android:layout_gravity="center_horizontal|bottom" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:id="@+id/save"
+            android:layout_gravity="center_horizontal|bottom" />
+
 
     </LinearLayout>
 
@@ -142,15 +149,16 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
-            android:id="@+id/save"
+            android:text="Send"
+            android:id="@+id/send"
             android:layout_gravity="center_horizontal" />
-        <Button
+        <!--<Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Retrieve"
             android:id="@+id/retrieve"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal" />-->
+
 
     </LinearLayout>
 
