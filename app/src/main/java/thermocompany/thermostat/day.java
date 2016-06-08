@@ -109,17 +109,8 @@ public class day extends Activity {
                 } catch (CorruptWeekProgramException e) {
                     e.printStackTrace();
                 }
-                for (int i = 0; i < 10; i++) {
-                    Switch aSwitch = serverWpg.data.get(day).get(i);
-                    if (aSwitch.getType().equals("night")) {
-                        nightTimes.add(aSwitch.getTime());
-                    }
-                    if (aSwitch.getType().equals("day")) {
-                        dayTimes.add(aSwitch.getTime());
-                    }
-                }
 
-                storeToTextFields();
+                printWeekProgramToTextFields(serverWpg);
                 Memory.storeWeekProgram(serverWpg);
 
             }
@@ -129,16 +120,7 @@ public class day extends Activity {
     // retrieves schedule from memory and stores in textfields
     void retrieveFromMemory() {
         localWpg = Memory.getWeekProgram();
-        for (int i = 0; i < 10; i++) {
-            Switch aSwitch = localWpg.data.get(day).get(i);
-            if (aSwitch.getType().equals("night")) {
-                nightTimes.add(aSwitch.getTime());
-            }
-            if (aSwitch.getType().equals("day")) {
-                dayTimes.add(aSwitch.getTime());
-            }
-        }
-        storeToTextFields();
+        printWeekProgramToTextFields(localWpg);
     }
 
     // stores schedule in memory
@@ -175,16 +157,25 @@ public class day extends Activity {
         }).start();
     }
 
-    void storeToTextFields() {
+    void printWeekProgramToTextFields(WeekProgram wpg) {
+        for (int i = 0; i < 10; i++) {
+            Switch aSwitch = wpg.data.get(day).get(i);
+            if (aSwitch.getType().equals("night")) {
+                nightTimes.add(aSwitch.getTime());
+            }
+            if (aSwitch.getType().equals("day")) {
+                dayTimes.add(aSwitch.getTime());
+            }
+        }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("Set TO UI");
                 for (int i = 0; i < 5; i++) {
                     switchesDay[i].setText(dayTimes.get(i));
                     switchesNight[i].setText(nightTimes.get(i));
                 }
             }
         });
+        System.out.println("Stored " + wpg + " in TextFields");
     }
 }
