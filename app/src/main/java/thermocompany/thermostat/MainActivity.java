@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import org.w3c.dom.Text;
 
@@ -24,8 +26,7 @@ public class MainActivity extends Activity {
     Button plus;
     Button minus;
     CountDownTimer refreshTimer;
-    Thread mainThread;
-
+    ToggleButton holdButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,7 @@ public class MainActivity extends Activity {
         tempCurrent = (TextView)findViewById(R.id.tempActual);
         plus = (Button)findViewById(R.id.plus);
         minus = (Button)findViewById(R.id.minus);
+        holdButton = (ToggleButton)findViewById(R.id.BtnHold);
 
         Button Schedule = (Button)findViewById(R.id.Schedule);
 
@@ -47,6 +49,8 @@ public class MainActivity extends Activity {
                 startActivity(weekIntent);
             }
         });
+
+
 
 
         // this part sets the initial values of the target and current temperature
@@ -67,6 +71,25 @@ public class MainActivity extends Activity {
                 } catch (ConnectException e) {
                     e.printStackTrace();
                 }
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String temp = HeatingSystem.get("weekProgramState");
+                    if (temp.equals("off")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                holdButton.setChecked(true);
+                            }
+                        });
+                    }
+                } catch (ConnectException e) {
+                    e.printStackTrace();
+                };
             }
         }).start();
 
@@ -171,10 +194,21 @@ public class MainActivity extends Activity {
             }
         });
 
+        holdButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    setWeekProgramDisabled();
+                }
+                else {
+                    setWeekProgramEnabled();
+                }
+            }
+        });
+
         refreshTimer = new CountDownTimer(1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-
             }
 
             public void onFinish() {
@@ -184,13 +218,30 @@ public class MainActivity extends Activity {
         }.start();
     }
 
-    void updateText() {
-        runOnUiThread(new Runnable() {
+    void setWeekProgramDisabled() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-
+                try {
+                    HeatingSystem.put("weekProgramState", "off");
+                } catch (InvalidInputValueException e) {
+                    e.printStackTrace();
+                }
             }
-        });
+        }).start();
+    }
+
+    void setWeekProgramEnabled() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HeatingSystem.put("weekProgramState", "on");
+                } catch (InvalidInputValueException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     void refreshCurrent() {
@@ -199,7 +250,7 @@ public class MainActivity extends Activity {
             public void run() {
                 try {
                     currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
-
+                    targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
                     refreshTimer.start();
                 } catch (ConnectException e) {
                     e.printStackTrace();

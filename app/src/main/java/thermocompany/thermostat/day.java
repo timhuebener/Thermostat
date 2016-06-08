@@ -14,8 +14,7 @@ import util.*;
 public class day extends Activity {
 
     String day;
-    WeekProgram wpg;
-    WeekProgram backup;
+    WeekProgram localWpg;
     EditText switch0;
     EditText switch1;
     EditText switch2;
@@ -51,8 +50,7 @@ public class day extends Activity {
         switch9 = (EditText) findViewById(R.id.switch9);
         send = (Button) findViewById(R.id.send);
         cancel = (Button) findViewById(R.id.cancel);
-        //retrieve = (Button) findViewById(R.id.retrieve);
-        save = (Button)findViewById(R.id.save);
+        save = (Button) findViewById(R.id.save);
 
         nightTimes = new ArrayList<>();
         dayTimes = new ArrayList<>();
@@ -60,15 +58,6 @@ public class day extends Activity {
         switchesNight = new EditText[]{switch0, switch1, switch2, switch3, switch4};
         switchesDay = new EditText[]{switch5, switch6, switch7, switch8, switch9};
 
-
-        /*retrieve.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                retrieveFromMemory();
-            }
-        });*/
-
-        //TODO: Maybe make local backup instead of retrieving from server
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,19 +85,24 @@ public class day extends Activity {
             }
         });
 
-        //refreshWeekoverview();
-        retrieveFromMemory();
+        localWpg = Memory.getWeekProgram();
+        if (localWpg == null) {
+            System.out.println("No schedule found on device, retrieving from server");
+            retrieveFromServer();
+        } else {
+            System.out.println("Schedule found on device, retrieving from device");
+            retrieveFromMemory();
+        }
     }
 
     // Retrieves schedule from server and stores it in textfield, used if nothing in memory
-    void refreshWeekoverview() {
-        System.out.println("Retrieved");
+    void retrieveFromServer() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                WeekProgram wpg = new WeekProgram();
+                WeekProgram serverWpg = new WeekProgram();
                 try {
-                    wpg = HeatingSystem.getWeekProgram();
+                    serverWpg = HeatingSystem.getWeekProgram();
 
                 } catch (ConnectException e) {
                     e.printStackTrace();
@@ -116,7 +110,7 @@ public class day extends Activity {
                     e.printStackTrace();
                 }
                 for (int i = 0; i < 10; i++) {
-                    Switch aSwitch = wpg.data.get(day).get(i);
+                    Switch aSwitch = serverWpg.data.get(day).get(i);
                     if (aSwitch.getType().equals("night")) {
                         nightTimes.add(aSwitch.getTime());
                     }
@@ -125,20 +119,8 @@ public class day extends Activity {
                     }
                 }
 
-                //Collections.sort(dayTimes);
-                //Collections.sort(nightTimes);
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        System.out.println("Set TO UI");
-                        for (int i = 0; i < 5; i++) {
-                            switchesDay[i].setText(dayTimes.get(i));
-                            switchesNight[i].setText(nightTimes.get(i));
-                        }
-                    }
-                });
-                if (backup == null) backup = wpg;
+                storeToTextFields();
+                Memory.storeWeekProgram(serverWpg);
 
             }
         }).start();
@@ -146,55 +128,40 @@ public class day extends Activity {
 
     // retrieves schedule from memory and stores in textfields
     void retrieveFromMemory() {
-        backup = Memory.getWeekProgram();
-        if (backup != null) {
-            for (int i = 0; i < 10; i++) {
-                Switch aSwitch = backup.data.get(day).get(i);
-                if (aSwitch.getType().equals("night")) {
-                    nightTimes.add(aSwitch.getTime());
-                }
-                if (aSwitch.getType().equals("day")) {
-                    dayTimes.add(aSwitch.getTime());
-                }
+        localWpg = Memory.getWeekProgram();
+        for (int i = 0; i < 10; i++) {
+            Switch aSwitch = localWpg.data.get(day).get(i);
+            if (aSwitch.getType().equals("night")) {
+                nightTimes.add(aSwitch.getTime());
             }
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println("Set TO UI");
-                    for (int i = 0; i < 5; i++) {
-                        switchesDay[i].setText(dayTimes.get(i));
-                        switchesNight[i].setText(nightTimes.get(i));
-                    }
-                }
-            });
+            if (aSwitch.getType().equals("day")) {
+                dayTimes.add(aSwitch.getTime());
+            }
         }
-        refreshWeekoverview();
+        storeToTextFields();
     }
 
     // stores schedule in memory
     void saveToDevice() {
-        backup = new WeekProgram();
-        System.out.println("SAVESAVESAVE");
         for (int i = 0; i < 5; i++) {
             String time = switchesNight[i].getText().toString();
 
             if (time.equals("00:00")) {
-                backup.data.get(day).set(i, new Switch("night", false, time));
+                localWpg.data.get(day).set(i, new Switch("night", false, time));
             } else {
-                backup.data.get(day).set(i, new Switch("night", true, time));
+                localWpg.data.get(day).set(i, new Switch("night", true, time));
             }
 
         }
         for (int i = 5; i < 10; i++) {
             String time = switchesDay[i - 5].getText().toString();
             if (time.equals("00:00")) {
-                backup.data.get(day).set(i, new Switch("day", false, time));
+                localWpg.data.get(day).set(i, new Switch("day", false, time));
             } else {
-                backup.data.get(day).set(i, new Switch("day", true, time));
+                localWpg.data.get(day).set(i, new Switch("day", true, time));
             }
         }
-        Memory.storeWeekProgram(backup);
-        System.out.println(backup);
+        Memory.storeWeekProgram(localWpg);
     }
 
     // saves schedule that is on screen and then sends it to the server
@@ -203,42 +170,21 @@ public class day extends Activity {
             @Override
             public void run() {
                 saveToDevice();
-                HeatingSystem.setWeekProgram(backup);
+                HeatingSystem.setWeekProgram(localWpg);
             }
         }).start();
     }
 
-    /*void sendToServer() {
-        new Thread(new Runnable() {
+    void storeToTextFields() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    wpg = HeatingSystem.getWeekProgram();
-                } catch (ConnectException e) {
-                    e.printStackTrace();
-                } catch (CorruptWeekProgramException e) {
-                    e.printStackTrace();
-                }
+                System.out.println("Set TO UI");
                 for (int i = 0; i < 5; i++) {
-                    String time = switchesNight[i].getText().toString();
-
-                    if (time.equals("00:00")) {
-                        wpg.data.get(day).set(i, new Switch("night", false, time));
-                    } else {
-                        wpg.data.get(day).set(i, new Switch("night", true, time));
-                    }
-
+                    switchesDay[i].setText(dayTimes.get(i));
+                    switchesNight[i].setText(nightTimes.get(i));
                 }
-                for (int i = 5; i < 10; i++) {
-                    String time = switchesDay[i - 5].getText().toString();
-                    if (time.equals("00:00")) {
-                        wpg.data.get(day).set(i, new Switch("day", false, time));
-                    } else {
-                        wpg.data.get(day).set(i, new Switch("day", true, time));
-                    }
-                }
-                HeatingSystem.setWeekProgram(wpg);
             }
-        }).start();
-    }*/
+        });
+    }
 }

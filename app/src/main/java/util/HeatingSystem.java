@@ -178,7 +178,7 @@ public class HeatingSystem {
         if (match) {
             InputStream in = null;
             try {
-                System.out.println("USED Link: " + link);
+                //System.out.println("USED Link: " + link);
                 HttpURLConnection connect = getHttpConnection(link, "GET");
                 in = connect.getInputStream();
 
