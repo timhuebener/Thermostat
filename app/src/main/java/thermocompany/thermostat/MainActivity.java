@@ -3,15 +3,14 @@ package thermocompany.thermostat;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Handler;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
-import org.w3c.dom.Text;
 
 import java.net.ConnectException;
 
@@ -27,30 +26,36 @@ public class MainActivity extends Activity {
     Button minus;
     CountDownTimer refreshTimer;
     ToggleButton holdButton;
+    Handler repeatHandler;
+    Runnable repeatPlus;
+    Runnable repeatMinus;
+    final int CLICK_INTERVAL = 300;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         HeatingSystem.BASE_ADDRESS = "http://wwwis.win.tue.nl/2id40-ws/60";
-        tempTarget = (TextView)findViewById(R.id.temp);
-        tempCurrent = (TextView)findViewById(R.id.tempActual);
-        plus = (Button)findViewById(R.id.plus);
-        minus = (Button)findViewById(R.id.minus);
-        holdButton = (ToggleButton)findViewById(R.id.BtnHold);
+        tempTarget = (TextView) findViewById(R.id.temp);
+        tempCurrent = (TextView) findViewById(R.id.tempActual);
+        plus = (Button) findViewById(R.id.plus);
+        minus = (Button) findViewById(R.id.minus);
+        holdButton = (ToggleButton) findViewById(R.id.BtnHold);
+        plus.setLongClickable(true);
+        minus.setLongClickable(true);
+        repeatHandler = new Handler();
 
-        Button Schedule = (Button)findViewById(R.id.Schedule);
+        Button Schedule = (Button) findViewById(R.id.Schedule);
 
-
-        Schedule.setOnClickListener(new View.OnClickListener(){
+        Schedule.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                Intent weekIntent = new Intent (view.getContext(), Weekoverview.class);
+            public void onClick(View view) {
+                Intent weekIntent = new Intent(view.getContext(), Weekoverview.class);
                 startActivity(weekIntent);
             }
         });
-
-
 
 
         // this part sets the initial values of the target and current temperature
@@ -63,8 +68,8 @@ public class MainActivity extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            tempTarget.setText(String.valueOf(targetTemperature)+ "\u2103");
-                            tempCurrent.setText(String.valueOf(currentTemperature)+ "\u2103");
+                            updateTargetTempView();
+                            updateCurrentTempView();
                         }
                     });
 
@@ -78,8 +83,8 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    String temp = HeatingSystem.get("weekProgramState");
-                    if (temp.equals("off")) {
+                    String weekProgramState = HeatingSystem.get("weekProgramState");
+                    if (weekProgramState.equals("off")) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -89,108 +94,61 @@ public class MainActivity extends Activity {
                     }
                 } catch (ConnectException e) {
                     e.printStackTrace();
-                };
+                }
+                ;
             }
         }).start();
 
 
-
-
-
-        plus.setOnClickListener(new View.OnClickListener() {
+        repeatPlus = new Runnable() {
             @Override
-            public void onClick(View v) {
-                targetTemperature = (targetTemperature*10+1)/10; // to prevent rounding issues
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            HeatingSystem.put("currentTemperature", String.valueOf(targetTemperature));
-                            tempTarget.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            tempTarget.setText(String.valueOf(targetTemperature)+ "\u2103");
+            public void run() {
+                System.out.println("Increased temp");
+                targetTemperature = (targetTemperature * 10 + 1) / 10; // to prevent rounding issues
+                updateTargetTempView();
+                repeatHandler.postDelayed(repeatPlus, CLICK_INTERVAL);
+            }
+        };
 
-                                        }
-                                    });
+        repeatMinus = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Decreased temp");
+                targetTemperature = (targetTemperature * 10 - 1) / 10; // to prevent rounding issues
+                updateTargetTempView();
+                repeatHandler.postDelayed(repeatMinus, CLICK_INTERVAL);
+            }
+        };
 
-                                }
-                            });
-                        } catch (InvalidInputValueException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
+        plus.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        repeatHandler.post(repeatPlus);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        repeatHandler.removeCallbacks(repeatPlus);
+                        sendTargetTempToServer(); // only updates to server once done increasing to save bandwidth, good idea?
+                        break;
+                }
+                return true;
             }
         });
 
-        //TODO get the longClickListeners to work
-        //Don't know why this doesn't work
-
-        /*plus.setOnLongClickListener(new View.OnLongClickListener(){
+        minus.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onLongClick(View v){
-                targetTemperature = (targetTemperature*10+1)/10;
-                new Thread(new Runnable(){
-                    @Override
-                    public void run(){
-                        try{
-                            HeatingSystem.put("currentTemperature", String.valueOf(targetTemperature));
-                            tempTarget.post(new Runnable(){
-                                @Override
-                                public void run(){
-                                    tempTarget.setText(String.valueOf(targetTemperature) + " \u2103");
-                                }
-                            });
-
-                        }catch (InvalidInputValueException e){
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                }).start();
-
-            }
-
-        });
-
-        */
-
-
-
-
-
-        minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                targetTemperature = (targetTemperature*10-1)/10;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            HeatingSystem.put("currentTemperature", String.valueOf(targetTemperature));
-                            tempTarget.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            tempTarget.setText(String.valueOf(targetTemperature)+" \u2103");
-
-                                        }
-                                    });
-
-                                }
-                            });
-                        } catch (InvalidInputValueException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        repeatHandler.post(repeatMinus);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        repeatHandler.removeCallbacks(repeatMinus);
+                        sendTargetTempToServer();
+                        break;
+                }
+                return true;
             }
         });
 
@@ -199,8 +157,7 @@ public class MainActivity extends Activity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     setWeekProgramDisabled();
-                }
-                else {
+                } else {
                     setWeekProgramEnabled();
                 }
             }
@@ -237,11 +194,19 @@ public class MainActivity extends Activity {
             public void run() {
                 try {
                     HeatingSystem.put("weekProgramState", "on");
+                    try {
+                        targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
+                    } catch (ConnectException e) {
+                        e.printStackTrace();
+                    }
                 } catch (InvalidInputValueException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
+
+        System.out.println(targetTemperature);
+        updateTargetTempView(); // does not update correctly, maybe thread is not finished
     }
 
     void refreshCurrent() {
@@ -250,18 +215,50 @@ public class MainActivity extends Activity {
             public void run() {
                 try {
                     currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
-                    targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
                     refreshTimer.start();
                 } catch (ConnectException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tempCurrent.setText(String.valueOf(currentTemperature)+" \u2103");
+                updateCurrentTempView();
             }
         });
+    }
+
+    void updateTargetTempView() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tempTarget.setText(String.valueOf(targetTemperature) + "\u2103");
+            }
+        });
+    }
+
+    void updateCurrentTempView() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tempCurrent.setText(String.valueOf(currentTemperature) + "\u2103");
+            }
+        });
+    }
+
+    void sendTargetTempToServer() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HeatingSystem.put("targetTemperature", String.valueOf(targetTemperature));
+                } catch (InvalidInputValueException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 }
