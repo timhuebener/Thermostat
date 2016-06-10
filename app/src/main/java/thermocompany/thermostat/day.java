@@ -1,6 +1,7 @@
 package thermocompany.thermostat;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,14 +27,16 @@ public class day extends Activity {
     EditText switch7;
     EditText switch8;
     EditText switch9;
-    EditText[] switchesNight;
-    EditText[] switchesDay;
+    static EditText lastSwitch;
+    static EditText[] switchesNight;
+    static EditText[] switchesDay;
     Button retrieve;
     ArrayList<String> nightTimes;
     ArrayList<String> dayTimes;
     Button send;
     Button cancel;
     Button save;
+    static int pressedSwitchIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,88 @@ public class day extends Activity {
             System.out.println("Schedule found on device, retrieving from device");
             retrieveFromMemory();
         }
+
+        switch0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedSwitchIndex = 0;
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+        switch1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedSwitchIndex = 1;
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+        switch2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedSwitchIndex = 2;
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+        switch3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedSwitchIndex = 3;
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+        switch4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedSwitchIndex = 4;
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+        switch5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedSwitchIndex = 5;
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+        switch6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedSwitchIndex = 6;
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+        switch7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedSwitchIndex = 7;
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+        switch8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedSwitchIndex = 8;
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+        switch9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedSwitchIndex = 9;
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+
     }
 
     // Retrieves schedule from server and stores it in textfield, used if nothing in memory
@@ -115,6 +200,7 @@ public class day extends Activity {
 
                 printWeekProgramToTextFields(serverWpg);
                 Memory.storeWeekProgram(serverWpg);
+                localWpg = Memory.getWeekProgram();
 
             }
         }).start();
@@ -180,5 +266,13 @@ public class day extends Activity {
             }
         });
         System.out.println("Stored " + wpg + " in TextFields");
+    }
+
+    public static void setTimeToSwitch(String time) {
+        if (pressedSwitchIndex < 5) {
+            switchesNight[pressedSwitchIndex].setText(time);
+        } else {
+            switchesDay[pressedSwitchIndex-5].setText(time);
+        }
     }
 }
