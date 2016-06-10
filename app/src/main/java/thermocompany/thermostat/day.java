@@ -94,7 +94,7 @@ public class day extends AppCompatActivity {
         if (localWpg == null) {
             System.out.println("No schedule found on device, retrieving from server");
             Toast.makeText(getApplicationContext(), "No schedule found on device, " +
-                    "retrieving from server", Toast.LENGTH_LONG).show();
+                    "retrieved from server", Toast.LENGTH_LONG).show();
             retrieveFromServer();
         } else {
             System.out.println("Schedule found on device, retrieving from device");
@@ -234,6 +234,13 @@ public class day extends AppCompatActivity {
             }
         }
         Memory.storeWeekProgram(localWpg);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "Saved schedule" +
+                        " to device", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     // saves schedule that is on screen and then sends it to the server
@@ -245,6 +252,8 @@ public class day extends AppCompatActivity {
                 HeatingSystem.setWeekProgram(localWpg);
             }
         }).start();
+        Toast.makeText(getApplicationContext(), "Sent schedule" +
+                " to server", Toast.LENGTH_LONG).show();
     }
 
     void printWeekProgramToTextFields(WeekProgram wpg) {
