@@ -2,19 +2,22 @@ package thermocompany.thermostat;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import util.*;
 
-public class day extends AppCompatActivity {
+public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     String day;
     WeekProgram localWpg;
@@ -28,9 +31,8 @@ public class day extends AppCompatActivity {
     EditText switch7;
     EditText switch8;
     EditText switch9;
-    static EditText lastSwitch;
-    static EditText[] switchesNight;
-    static EditText[] switchesDay;
+    EditText[] switchesNight;
+    EditText[] switchesDay;
     Button retrieve;
     ArrayList<String> nightTimes;
     ArrayList<String> dayTimes;
@@ -57,16 +59,14 @@ public class day extends AppCompatActivity {
         cancel = (Button) findViewById(R.id.cancel);
         save = (Button) findViewById(R.id.save);
 
-        nightTimes = new ArrayList<>();
-        dayTimes = new ArrayList<>();
-
         switchesNight = new EditText[]{switch0, switch1, switch2, switch3, switch4};
         switchesDay = new EditText[]{switch5, switch6, switch7, switch8, switch9};
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                retrieveFromMemory();
+                localWpg = Memory.getWeekProgram();
+                printWeekProgramToTextFields(localWpg);
             }
         });
 
@@ -98,7 +98,8 @@ public class day extends AppCompatActivity {
             retrieveFromServer();
         } else {
             System.out.println("Schedule found on device, retrieving from device");
-            retrieveFromMemory();
+            localWpg = Memory.getWeekProgram();
+            printWeekProgramToTextFields(localWpg);
         }
 
         switch0.setOnClickListener(new View.OnClickListener() {
@@ -207,11 +208,6 @@ public class day extends AppCompatActivity {
         }).start();
     }
 
-    // retrieves schedule from memory and stores in textfields
-    void retrieveFromMemory() {
-        localWpg = Memory.getWeekProgram();
-        printWeekProgramToTextFields(localWpg);
-    }
 
     // stores schedule in memory
     void saveToDevice() {
@@ -234,6 +230,7 @@ public class day extends AppCompatActivity {
             }
         }
         Memory.storeWeekProgram(localWpg);
+        printWeekProgramToTextFields(localWpg);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -257,6 +254,8 @@ public class day extends AppCompatActivity {
     }
 
     void printWeekProgramToTextFields(WeekProgram wpg) {
+        nightTimes = new ArrayList<>();
+        dayTimes = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Switch aSwitch = wpg.data.get(day).get(i);
             if (aSwitch.getType().equals("night")) {
@@ -266,6 +265,9 @@ public class day extends AppCompatActivity {
                 dayTimes.add(aSwitch.getTime());
             }
         }
+
+        Collections.sort(nightTimes);
+        Collections.sort(dayTimes);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -278,7 +280,26 @@ public class day extends AppCompatActivity {
         System.out.println("Stored " + wpg + " in TextFields");
     }
 
-    public static void setTimeToSwitch(String time) {
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) {
+        String time;
+        String hour;
+        String minute;
+
+        if (hourOfDay < 10) {
+            hour = ("0" + hourOfDay);
+        } else {
+            hour = String.valueOf(hourOfDay);
+        }
+
+        if (minuteOfHour < 10) {
+            minute = ("0" + minuteOfHour);
+        } else {
+            minute = String.valueOf(minuteOfHour);
+        }
+
+        time = (hour + ":" + minute);
+
         if (pressedSwitchIndex < 5) {
             switchesNight[pressedSwitchIndex].setText(time);
         } else {
