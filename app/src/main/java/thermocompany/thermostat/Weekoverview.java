@@ -1,11 +1,13 @@
 package thermocompany.thermostat;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,7 +17,7 @@ import util.CorruptWeekProgramException;
 import util.HeatingSystem;
 import util.WeekProgram;
 
-public class Weekoverview extends Activity {
+public class Weekoverview extends AppCompatActivity {
 
     Button mon;
     Button tue;
@@ -24,7 +26,7 @@ public class Weekoverview extends Activity {
     Button fri;
     Button sat;
     Button sun;
-    Button setDefault;
+    //Button setDefault;
     static String day;
     WeekProgram wpg;
 
@@ -43,7 +45,9 @@ public class Weekoverview extends Activity {
         fri = (Button)findViewById(R.id.friday);
         sat = (Button)findViewById(R.id.saturday);
         sun = (Button)findViewById(R.id.sunday);
-        setDefault = (Button)findViewById(R.id.setDefault);
+        //setDefault = (Button)findViewById(R.id.setDefault);
+
+        setTitle("Week Overview");
 
 
         mon.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +106,7 @@ public class Weekoverview extends Activity {
             }
         });
 
-        setDefault.setOnClickListener(new View.OnClickListener() {
+        /*setDefault.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(Weekoverview.this)
@@ -123,8 +127,41 @@ public class Weekoverview extends Activity {
 
 
             }
-        });
+        });*/
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_weekoverview, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.reset:
+                new AlertDialog.Builder(Weekoverview.this)
+                        .setMessage("Are you sure you want to reset the schedule?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                setDefault();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .create().show();
+                break;
+        }
+
+        return true;
     }
 
     void switchToDay(View view) {

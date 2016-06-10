@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +17,7 @@ import java.net.ConnectException;
 
 import util.*;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     TextView tempTarget;
     TextView tempCurrent;
