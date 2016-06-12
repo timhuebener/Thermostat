@@ -24,6 +24,8 @@
 
 
         <activity android:name=".day"></activity>
+
+        <activity android:name=".Settings"></activity>
     </application>
 
 </manifest>

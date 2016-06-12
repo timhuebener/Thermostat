@@ -143,7 +143,9 @@
             android:textAllCaps="false"
             android:backgroundTint="#FFFFFF"
             android:textSize="30dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:id="@+id/btnsettings"
+            />
 
 
         <Button

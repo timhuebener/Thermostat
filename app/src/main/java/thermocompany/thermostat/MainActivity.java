@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Runnable repeatPlus;
     Runnable repeatMinus;
     final int CLICK_INTERVAL = 300;
-
+    Button settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         plus.setLongClickable(true);
         minus.setLongClickable(true);
         repeatHandler = new Handler();
+        settings = (Button)findViewById(R.id.btnsettings);
 
         Button Schedule = (Button) findViewById(R.id.Schedule);
 
@@ -57,6 +58,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(weekIntent);
             }
         });
+
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent settingsIntent = new Intent(view.getContext(), Settings.class);
+                startActivity(settingsIntent);
+            }
+        });
+
+
+
+
 
 
         // this part sets the initial values of the target and current temperature
@@ -262,4 +276,6 @@ public class MainActivity extends AppCompatActivity {
         }).start();
 
     }
+
+
 }
