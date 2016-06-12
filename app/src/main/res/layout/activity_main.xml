@@ -18,7 +18,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
 
-    android:background="@drawable/daybackground">
+    android:background="@drawable/sky01">
 
 
     <!--Top horizontal layout containing 2 vertical layouts.-->
@@ -28,7 +28,8 @@
         android:layout_width="wrap_content"
         android:layout_height="280dp"
         android:orientation="horizontal"
-        android:layout_gravity="top">
+        android:layout_gravity="top"
+        android:layout_marginTop="30dp">
 
         <!--The left linear layout that displays the actual temperature-->
         <LinearLayout
@@ -43,7 +44,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Current Temperature"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -52,8 +54,21 @@
                 android:text="25 &#x2103;"
                 android:gravity="center_vertical|center_horizontal"
                 android:textSize="80sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:layout_marginBottom="10dp"/>
 
+            <ToggleButton
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:textOn="@string/Resume"
+                android:textOff="@string/Hold"
+                android:textSize="30dp"
+                android:textAllCaps="false"
+                android:id="@+id/BtnHold"
+                android:layout_gravity="bottom|center"
+                android:backgroundTint="#FFFFFF"
+                android:clickable="true"
+                />
 
         </LinearLayout>
 
@@ -63,14 +78,16 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center_vertical|center_horizontal">
+            android:gravity="center_vertical|center_horizontal"
+            >
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Target"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#FFFFFF"
+                android:textSize="18dp"/>
 
 
             <Button
@@ -118,18 +135,16 @@
         android:layout_gravity="bottom">
 
 
-        <ToggleButton
+        <Button
             android:layout_width="175dp"
             android:layout_height="wrap_content"
-            android:textOn="@string/Resume"
-            android:textOff="@string/Hold"
-            android:textSize="30dp"
+            android:text="@string/Settings"
+            android:layout_gravity="bottom|start"
             android:textAllCaps="false"
-            android:id="@+id/BtnHold"
-            android:layout_gravity="bottom|left"
             android:backgroundTint="#FFFFFF"
+            android:textSize="30dp"
+            android:layout_marginRight="20dp"/>
 
-            android:clickable="true" />
 
         <Button
             android:layout_width="175dp"
