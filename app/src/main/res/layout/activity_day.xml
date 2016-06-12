@@ -11,12 +11,85 @@
     android:orientation="horizontal"
     android:background="@drawable/daybackground">
 
+
+    <!--The layout on the left containing the checkboxes -->
+   <LinearLayout
+       android:layout_width="30dp"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+
+       <LinearLayout
+           android:layout_width="30dp"
+           android:layout_height="30dp"
+           android:layout_marginTop="105dp">
+       <CheckBox
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="New CheckBox"
+           android:id="@+id/cbd1"
+           />
+       </LinearLayout>
+
+
+       <LinearLayout
+           android:layout_width="30dp"
+           android:layout_height="30dp"
+           android:layout_marginTop="32dp">
+       <CheckBox
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="New CheckBox"
+           android:id="@+id/cbd2" />
+       </LinearLayout>
+
+
+       <LinearLayout
+           android:layout_width="30dp"
+           android:layout_height="30dp"
+           android:layout_marginTop="32dp">
+
+       <CheckBox
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="New CheckBox"
+       android:id="@+id/cbd3" />
+
+       </LinearLayout>
+
+
+       <LinearLayout
+           android:layout_width="30dp"
+           android:layout_height="30dp"
+           android:layout_marginTop="32dp">
+       <CheckBox
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="New CheckBox"
+       android:id="@+id/cbd4" />
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="30dp"
+           android:layout_height="30dp"
+           android:layout_marginTop="32dp">
+       <CheckBox
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="New CheckBox"
+       android:id="@+id/cbd5" />
+       </LinearLayout>
+
+
+   </LinearLayout>
+
+
+
     <LinearLayout
-        android:layout_width="140dp"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="left"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="35dp">
 
         <ImageView
@@ -99,10 +172,87 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="140dp"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="105dp">
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New CheckBox"
+                android:id="@+id/cbn1"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="32dp">
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New CheckBox"
+                android:id="@+id/cbn2" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="32dp">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New CheckBox"
+                android:id="@+id/cbn3" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="32dp">
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New CheckBox"
+                android:id="@+id/cbn4" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="32dp">
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New CheckBox"
+                android:id="@+id/cbn5" />
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="100dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_gravity="right">
+        android:layout_gravity="right"
+        android:layout_marginLeft="10dp">
 
         <ImageView
             android:layout_width="80dp"
@@ -120,7 +270,9 @@
             android:id="@+id/switch0"
             android:background="#ffffff"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"/>
+            android:layout_marginBottom="30dp"
+            />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,6 +284,7 @@
             android:background="#ffffff"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"/>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -143,6 +296,7 @@
             android:background="#ffffff"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"/>
+
         <EditText
             android:layout_width="match_parent"
             android:focusable="false"
@@ -154,6 +308,7 @@
             android:background="#ffffff"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"/>
+
         <EditText
             android:layout_width="match_parent"
             android:focusable="false"
