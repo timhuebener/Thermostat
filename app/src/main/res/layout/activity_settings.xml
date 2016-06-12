@@ -109,7 +109,8 @@
                 android:textAllCaps="false"
                 android:gravity="center"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:backgroundTint="#FFFFFF"/>
 
             <Button
                 android:layout_width="175dp"
@@ -118,7 +119,7 @@
                 android:textSize="30dp"
                 android:id="@+id/btnConfirm"
                 android:textAllCaps="false"
-
+                android:backgroundTint="#FFFFFF"
                 />
 
         </LinearLayout>
