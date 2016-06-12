@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -33,13 +34,27 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
     EditText switch9;
     EditText[] switchesNight;
     EditText[] switchesDay;
+    CheckBox[] boxesNight;
+    CheckBox[] boxesDay;
     Button retrieve;
     ArrayList<String> nightTimes;
     ArrayList<String> dayTimes;
+    ArrayList<Boolean> nightChecks;
+    ArrayList<Boolean> dayChecks;
     Button send;
     Button cancel;
     Button save;
-    static int pressedSwitchIndex;
+    int pressedSwitchIndex;
+    CheckBox box0;
+    CheckBox box1;
+    CheckBox box2;
+    CheckBox box3;
+    CheckBox box4;
+    CheckBox box5;
+    CheckBox box6;
+    CheckBox box7;
+    CheckBox box8;
+    CheckBox box9;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +70,25 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
         switch7 = (EditText) findViewById(R.id.switch7);
         switch8 = (EditText) findViewById(R.id.switch8);
         switch9 = (EditText) findViewById(R.id.switch9);
+        box0 = (CheckBox) findViewById(R.id.cbn0);
+        box1 = (CheckBox) findViewById(R.id.cbn1);
+        box2 = (CheckBox) findViewById(R.id.cbn2);
+        box3 = (CheckBox) findViewById(R.id.cbn3);
+        box4 = (CheckBox) findViewById(R.id.cbn4);
+        box5 = (CheckBox) findViewById(R.id.cbn5);
+        box6 = (CheckBox) findViewById(R.id.cbn6);
+        box7 = (CheckBox) findViewById(R.id.cbn7);
+        box8 = (CheckBox) findViewById(R.id.cbn8);
+        box9 = (CheckBox) findViewById(R.id.cbn9);
         send = (Button) findViewById(R.id.send);
         cancel = (Button) findViewById(R.id.cancel);
         save = (Button) findViewById(R.id.save);
 
         switchesNight = new EditText[]{switch0, switch1, switch2, switch3, switch4};
         switchesDay = new EditText[]{switch5, switch6, switch7, switch8, switch9};
+        boxesNight = new CheckBox[]{box0, box1, box2, box3, box4};
+        boxesDay = new CheckBox[]{box5, box6, box7, box8, box9};
+
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,24 +241,19 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
     void saveToDevice() {
         for (int i = 0; i < 5; i++) {
             String time = switchesNight[i].getText().toString();
-
-            if (time.equals("00:00")) {
-                localWpg.data.get(day).set(i, new Switch("night", false, time));
-            } else {
-                localWpg.data.get(day).set(i, new Switch("night", true, time));
-            }
+            Boolean checked = boxesNight[i].isChecked();
+            localWpg.data.get(day).set(i, new Switch("night", checked, time));
 
         }
         for (int i = 5; i < 10; i++) {
             String time = switchesDay[i - 5].getText().toString();
-            if (time.equals("00:00")) {
-                localWpg.data.get(day).set(i, new Switch("day", false, time));
-            } else {
-                localWpg.data.get(day).set(i, new Switch("day", true, time));
-            }
+            Boolean checked = boxesDay[i - 5].isChecked();
+            localWpg.data.get(day).set(i, new Switch("day", checked, time));
         }
         Memory.storeWeekProgram(localWpg);
-        printWeekProgramToTextFields(localWpg);
+
+        // disabled because sorting is disabled, no function
+        // printWeekProgramToTextFields(localWpg);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -256,24 +279,32 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
     void printWeekProgramToTextFields(WeekProgram wpg) {
         nightTimes = new ArrayList<>();
         dayTimes = new ArrayList<>();
+        nightChecks = new ArrayList<>();
+        dayChecks = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Switch aSwitch = wpg.data.get(day).get(i);
             if (aSwitch.getType().equals("night")) {
                 nightTimes.add(aSwitch.getTime());
+                nightChecks.add(aSwitch.getState());
             }
             if (aSwitch.getType().equals("day")) {
                 dayTimes.add(aSwitch.getTime());
+                dayChecks.add(aSwitch.getState());
             }
+
         }
 
-        Collections.sort(nightTimes);
-        Collections.sort(dayTimes);
+        // Sorting does not work well with the boxes atm
+        //Collections.sort(nightTimes);
+        //Collections.sort(dayTimes);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < 5; i++) {
                     switchesDay[i].setText(dayTimes.get(i));
+                    boxesDay[i].setChecked(dayChecks.get(i));
                     switchesNight[i].setText(nightTimes.get(i));
+                    boxesNight[i].setChecked(nightChecks.get(i));
                 }
             }
         });
@@ -303,7 +334,7 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
         if (pressedSwitchIndex < 5) {
             switchesNight[pressedSwitchIndex].setText(time);
         } else {
-            switchesDay[pressedSwitchIndex-5].setText(time);
+            switchesDay[pressedSwitchIndex - 5].setText(time);
         }
     }
 }
