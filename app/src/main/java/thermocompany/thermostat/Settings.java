@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +19,7 @@ import util.WeekProgram;
 /**
  * Created by Martijn on 12-6-2016.
  */
-public class Settings extends Activity {
+public class Settings extends AppCompatActivity {
 
 
     EditText daytemp;
@@ -43,12 +44,14 @@ public class Settings extends Activity {
 
         HeatingSystem.WEEK_PROGRAM_ADDRESS = HeatingSystem.BASE_ADDRESS + "/weekProgram";
 
+        setTitle("Settings");
+
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(Settings.this)
                         .setMessage("Are you sure you want to import the schedule from server?" +
-                                "\n (device schedule will be overwritten))")
+                                "\n(device schedule will be overwritten)")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
