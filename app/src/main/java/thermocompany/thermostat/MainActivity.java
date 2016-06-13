@@ -8,6 +8,9 @@ import android.os.Handler;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     Runnable repeatPlus;
     Runnable repeatMinus;
     final int CLICK_INTERVAL = 300;
-    Button settings;
+    //Button settings;
     Boolean pressed;
 
     @Override
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         plus.setLongClickable(true);
         minus.setLongClickable(true);
         repeatHandler = new Handler();
-        settings = (Button) findViewById(R.id.btnsettings);
+        //settings = (Button) findViewById(R.id.btnsettings);
 
         pressed = false;
 
@@ -73,13 +76,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        settings.setOnClickListener(new View.OnClickListener() {
+        /*settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent settingsIntent = new Intent(view.getContext(), Settings.class);
                 startActivity(settingsIntent);
             }
-        });
+        });*/
 
         // this part sets the initial values of the target and current temperature
         new Thread(new Runnable() {
@@ -242,6 +245,25 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }.start();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.settings:
+                Intent settingsIntent = new Intent(this, Settings.class);
+                startActivity(settingsIntent);
+                break;
+        }
+
+        return true;
     }
 
     void setWeekProgramDisabled() {

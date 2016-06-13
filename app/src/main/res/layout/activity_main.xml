@@ -157,7 +157,7 @@
         android:layout_gravity="bottom">
 
 
-        <Button
+        <!--<Button
             android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:text="@string/Settings"
@@ -167,7 +167,7 @@
             android:textSize="30dp"
             android:layout_marginRight="20dp"
             android:id="@+id/btnsettings"
-            />
+            />-->
 
 
         <Button
