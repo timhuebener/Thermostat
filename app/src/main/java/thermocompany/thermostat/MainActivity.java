@@ -224,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                         }).start();
-                        System.out.println("test");
                         updateCurrentTempView();
                         if (!pressed) {
                             new Thread(new Runnable() {
