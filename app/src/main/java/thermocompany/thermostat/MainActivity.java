@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 System.out.println("Increased temp");
-                if (targetTemperature < 25) {
+                if (targetTemperature < 30) {
                     targetTemperature = (targetTemperature * 10 + 1) / 10; // to prevent rounding issues
                     updateTargetTempView();
                 }
@@ -149,98 +149,98 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        plus.setOnTouchListener(new View.OnTouchListener()
-                                {
-                                    @Override
-                                    public boolean onTouch(View v, MotionEvent event) {
-                                        switch (event.getAction()) {
-                                            case MotionEvent.ACTION_DOWN:
-                                                repeatHandler.post(repeatPlus);
-                                                doNotUpdateTarget = true;
-                                                break;
-                                            case MotionEvent.ACTION_UP:
-                                                repeatHandler.removeCallbacks(repeatPlus);
-                                                doNotUpdateTarget = false;
-                                                sendTargetTempToServer(); // only updates to server once done increasing to save bandwidth, good idea?
-                                                break;
-                                        }
-                                        return true;
-                                    }
-                                }
-
-        );
-
-        minus.setOnTouchListener(new View.OnTouchListener()
-
-                                 {
-                                     @Override
-                                     public boolean onTouch(View v, MotionEvent event) {
-                                         switch (event.getAction()) {
-                                             case MotionEvent.ACTION_DOWN:
-                                                 repeatHandler.post(repeatMinus);
-                                                 doNotUpdateTarget = true;
-                                                 break;
-                                             case MotionEvent.ACTION_UP:
-                                                 repeatHandler.removeCallbacks(repeatMinus);
-                                                 doNotUpdateTarget = false;
-                                                 sendTargetTempToServer();
-                                                 break;
-                                         }
-                                         return true;
-                                     }
-                                 }
-
-        );
-
-        holdSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                                  @Override
-                                                  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                                      if (isChecked) {
-                                                          setWeekProgramEnabled();
-                                                      } else {
-                                                          setWeekProgramDisabled();
-                                                      }
-                                                  }
-                                              }
-
-        );
-
-        refreshTimer = new
-
-                CountDownTimer(1000, 1000) {
-
-                    public void onTick(long millisUntilFinished) {
-                    }
-
-                    public void onFinish() {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
-                                } catch (ConnectException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-                        updateCurrentTempView();
-                        if (!doNotUpdateTarget) {
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
-                                    } catch (ConnectException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }).start();
-                            updateTargetTempView();
+        plus.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                repeatHandler.post(repeatPlus);
+                                doNotUpdateTarget = true;
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                repeatHandler.removeCallbacks(repeatPlus);
+                                doNotUpdateTarget = false;
+                                sendTargetTempToServer(); // only updates to server once done increasing to save bandwidth, good idea?
+                                break;
                         }
-                        refreshTimer.start();
+                        return true;
                     }
+                }
 
-                }.start();
+        );
+
+        minus.setOnTouchListener(
+                new View.OnTouchListener()
+
+                {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                repeatHandler.post(repeatMinus);
+                                doNotUpdateTarget = true;
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                repeatHandler.removeCallbacks(repeatMinus);
+                                doNotUpdateTarget = false;
+                                sendTargetTempToServer();
+                                break;
+                        }
+                        return true;
+                    }
+                }
+
+        );
+
+        holdSwitch.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            setWeekProgramEnabled();
+                        } else {
+                            setWeekProgramDisabled();
+                        }
+                    }
+                }
+
+        );
+
+        refreshTimer = new CountDownTimer(1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
+                        } catch (ConnectException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                updateCurrentTempView();
+                if (!doNotUpdateTarget) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
+                            } catch (ConnectException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                    updateTargetTempView();
+                }
+                refreshTimer.start();
+            }
+
+        }.start();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -331,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
 
     void showNumberPicker() {
         NumberPicker numberPicker = new NumberPicker(this);
-        numberPicker.setMaxValue(25);
+        numberPicker.setMaxValue(30);
         numberPicker.setMinValue(5);
         numberPicker.setValue((int) targetTemperature);
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {

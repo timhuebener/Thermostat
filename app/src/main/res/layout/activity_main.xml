@@ -81,7 +81,7 @@
 
 
             <Button
-                android:layout_width="50dp"
+                android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:text="+"
                 android:textSize="25sp"
@@ -103,9 +103,10 @@
                 android:textColor="@color/white"/>-->
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
+                android:textAlignment="center"
                 android:ems="10"
                 android:focusable="false"
                 android:clickable="true"
@@ -114,7 +115,7 @@
                 />
 
             <Button
-                android:layout_width="50dp"
+                android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:text="-"
                 android:textSize="25sp"
