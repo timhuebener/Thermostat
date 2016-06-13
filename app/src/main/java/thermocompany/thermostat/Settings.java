@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 
 import java.net.ConnectException;
 
@@ -27,8 +28,8 @@ public class Settings extends AppCompatActivity {
     Button cancel;
     Button confirm;
     Button importButton;
-    Double dayTempValue;
-    Double nightTempValue;
+    double dayTempValue;
+    double nightTempValue;
 
 
     @Override
@@ -72,6 +73,20 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateTempsToServer();
+            }
+        });
+
+        daytemp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNumberPickerDay();
+            }
+        });
+
+        nightTemp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNumberPickerNight();
             }
         });
 
@@ -143,5 +158,35 @@ public class Settings extends AppCompatActivity {
     void resetInput() {
         daytemp.setText(String.valueOf(dayTempValue));
         nightTemp.setText(String.valueOf(nightTempValue));
+    }
+
+    void showNumberPickerDay() {
+        NumberPicker numberPicker = new NumberPicker(this);
+        numberPicker.setMaxValue(25);
+        numberPicker.setMinValue(5);
+        numberPicker.setValue((int)dayTempValue);
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                dayTempValue = (double)newVal;
+                daytemp.setText(String.valueOf(dayTempValue));
+            }
+        });
+        new AlertDialog.Builder(this).setView(numberPicker).create().show();
+    }
+
+    void showNumberPickerNight() {
+        NumberPicker numberPicker = new NumberPicker(this);
+        numberPicker.setMaxValue(25);
+        numberPicker.setMinValue(5);
+        numberPicker.setValue((int)nightTempValue);
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                nightTempValue = (double)newVal;
+                nightTemp.setText(String.valueOf(nightTempValue));
+            }
+        });
+        new AlertDialog.Builder(this).setView(numberPicker).create().show();
     }
 }

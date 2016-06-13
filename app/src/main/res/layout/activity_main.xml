@@ -96,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="25 &#x2103;"
+                android:clickable="true"
                 android:id="@+id/temp"
                 android:padding="20dp"
                 android:textSize="20dp"
