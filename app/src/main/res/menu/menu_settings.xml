@@ -2,8 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/settings"
-        android:icon="@drawable/settings"
-        android:title="Settings"
+        android:id="@+id/importSetting"
+        android:title="Import Schedule"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/resetSchedule"
+        android:title="Set Default"
         app:showAsAction="never"/>
 </menu>
