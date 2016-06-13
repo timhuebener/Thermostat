@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     Runnable repeatMinus;
     final int CLICK_INTERVAL = 300;
     Button settings;
+    Boolean pressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
         plus.setLongClickable(true);
         minus.setLongClickable(true);
         repeatHandler = new Handler();
-        settings = (Button)findViewById(R.id.btnsettings);
+        settings = (Button) findViewById(R.id.btnsettings);
+
+        pressed = false;
 
         Button Schedule = (Button) findViewById(R.id.Schedule);
 
@@ -67,11 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(settingsIntent);
             }
         });
-
-
-
-
-
 
         // this part sets the initial values of the target and current temperature
         new Thread(new Runnable() {
@@ -141,9 +139,11 @@ public class MainActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         repeatHandler.post(repeatPlus);
+                        pressed = true;
                         break;
                     case MotionEvent.ACTION_UP:
                         repeatHandler.removeCallbacks(repeatPlus);
+                        pressed = false;
                         sendTargetTempToServer(); // only updates to server once done increasing to save bandwidth, good idea?
                         break;
                 }
@@ -157,9 +157,11 @@ public class MainActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         repeatHandler.post(repeatMinus);
+                        pressed = true;
                         break;
                     case MotionEvent.ACTION_UP:
                         repeatHandler.removeCallbacks(repeatMinus);
+                        pressed = false;
                         sendTargetTempToServer();
                         break;
                 }
@@ -184,7 +186,32 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                refreshCurrent();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
+                        } catch (ConnectException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+                System.out.println("test");
+                updateCurrentTempView();
+                if (!pressed) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
+                            } catch (ConnectException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                    updateTargetTempView();
+                }
+                refreshTimer.start();
             }
 
         }.start();
@@ -224,26 +251,6 @@ public class MainActivity extends AppCompatActivity {
         updateTargetTempView(); // does not update correctly, maybe thread is not finished
     }
 
-    void refreshCurrent() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
-                    refreshTimer.start();
-                } catch (ConnectException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                updateCurrentTempView();
-            }
-        });
-    }
 
     void updateTargetTempView() {
         runOnUiThread(new Runnable() {
