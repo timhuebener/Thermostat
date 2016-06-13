@@ -81,7 +81,7 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        daytemp.setOnClickListener(new View.OnClickListener() {
+        /*daytemp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showNumberPickerDay();
@@ -93,7 +93,7 @@ public class Settings extends AppCompatActivity {
             public void onClick(View v) {
                 showNumberPickerNight();
             }
-        });
+        });*/
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +165,8 @@ public class Settings extends AppCompatActivity {
         nightTemp.setText(String.valueOf(nightTempValue));
     }
 
-    void showNumberPickerDay() {
+    // (temp) remove number picker because not one digit behind decimal
+    /*void showNumberPickerDay() {
         NumberPicker numberPicker = new NumberPicker(this);
         numberPicker.setMaxValue(25);
         numberPicker.setMinValue(5);
@@ -205,7 +206,7 @@ public class Settings extends AppCompatActivity {
                     }
                 })
                 .create().show();
-    }
+    }*/
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
