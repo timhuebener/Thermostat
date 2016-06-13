@@ -169,10 +169,16 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 dayTempValue = (double)newVal;
-                daytemp.setText(String.valueOf(dayTempValue));
             }
         });
-        new AlertDialog.Builder(this).setView(numberPicker).create().show();
+        new AlertDialog.Builder(this).setView(numberPicker)
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        daytemp.setText(String.valueOf(dayTempValue));
+                    }
+                })
+                .create().show();
     }
 
     void showNumberPickerNight() {
@@ -184,9 +190,15 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 nightTempValue = (double)newVal;
-                nightTemp.setText(String.valueOf(nightTempValue));
             }
         });
-        new AlertDialog.Builder(this).setView(numberPicker).create().show();
+        new AlertDialog.Builder(this).setView(numberPicker)
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        nightTemp.setText(String.valueOf(nightTempValue));
+                    }
+                })
+                .create().show();
     }
 }

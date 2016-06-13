@@ -321,21 +321,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 targetTemperature = (double)newVal;
-                sendTargetTempToServer();
             }
         });
         new AlertDialog.Builder(this).setView(numberPicker)
-                /*.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        sendTargetTempToServer();
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })*/.create().show();
+                .create().show();
     }
 
 
