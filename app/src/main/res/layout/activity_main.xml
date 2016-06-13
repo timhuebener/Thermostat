@@ -18,7 +18,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
 
-    android:background="@drawable/sky02">
+    android:background="@drawable/daybackground">
 
 
     <!--Top horizontal layout containing 2 vertical layouts.-->
@@ -134,7 +134,7 @@
             android:textSize="30dp"
             android:layout_marginRight="10dp"/>
 
-        <ToggleButton
+        <!--<ToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textOn="Off"
@@ -145,7 +145,16 @@
             android:layout_gravity=""
             android:backgroundTint="#FFFFFF"
             android:clickable="true"
-            />
+            />-->
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scheduleOnOff"
+            android:checked="true"
+            android:gravity="center"
+            android:backgroundTint="#ffffff"
+            android:drawableTint="#ffffff" />
 
 
     </LinearLayout>

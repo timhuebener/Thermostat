@@ -3,7 +3,6 @@ package thermocompany.thermostat;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.app.Activity;
 import android.os.Handler;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -13,11 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.NumberPicker;
-import android.widget.TextView;
-import android.widget.ToggleButton;
+import android.widget.*;
 
 import java.net.ConnectException;
 
@@ -38,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     Runnable repeatMinus;
     final int CLICK_INTERVAL = 300;
     //Button settings;
-    Boolean pressed;
+    Boolean doNotUpdateTarget;
+    android.widget.Switch holdSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +46,14 @@ public class MainActivity extends AppCompatActivity {
         tempCurrent = (TextView) findViewById(R.id.tempActual);
         plus = (Button) findViewById(R.id.plus);
         minus = (Button) findViewById(R.id.minus);
-        holdButton = (ToggleButton) findViewById(R.id.BtnHold);
+        //holdButton = (ToggleButton) findViewById(R.id.BtnHold);
         plus.setLongClickable(true);
         minus.setLongClickable(true);
         repeatHandler = new Handler();
+        holdSwitch = (android.widget.Switch) findViewById(R.id.scheduleOnOff);
         //settings = (Button) findViewById(R.id.btnsettings);
 
-        pressed = false;
+        doNotUpdateTarget = false;
 
         Button Schedule = (Button) findViewById(R.id.Schedule);
 
@@ -71,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         tempTarget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                doNotUpdateTarget = true;
                 showNumberPicker();
             }
         });
@@ -114,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                holdButton.setChecked(true);
+                                holdSwitch.setChecked(false);
                             }
                         });
                     }
@@ -151,18 +149,17 @@ public class MainActivity extends AppCompatActivity {
         };
 
         plus.setOnTouchListener(new View.OnTouchListener()
-
                                 {
                                     @Override
                                     public boolean onTouch(View v, MotionEvent event) {
                                         switch (event.getAction()) {
                                             case MotionEvent.ACTION_DOWN:
                                                 repeatHandler.post(repeatPlus);
-                                                pressed = true;
+                                                doNotUpdateTarget = true;
                                                 break;
                                             case MotionEvent.ACTION_UP:
                                                 repeatHandler.removeCallbacks(repeatPlus);
-                                                pressed = false;
+                                                doNotUpdateTarget = false;
                                                 sendTargetTempToServer(); // only updates to server once done increasing to save bandwidth, good idea?
                                                 break;
                                         }
@@ -180,11 +177,11 @@ public class MainActivity extends AppCompatActivity {
                                          switch (event.getAction()) {
                                              case MotionEvent.ACTION_DOWN:
                                                  repeatHandler.post(repeatMinus);
-                                                 pressed = true;
+                                                 doNotUpdateTarget = true;
                                                  break;
                                              case MotionEvent.ACTION_UP:
                                                  repeatHandler.removeCallbacks(repeatMinus);
-                                                 pressed = false;
+                                                 doNotUpdateTarget = false;
                                                  sendTargetTempToServer();
                                                  break;
                                          }
@@ -194,15 +191,13 @@ public class MainActivity extends AppCompatActivity {
 
         );
 
-        holdButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-
-                                              {
+        holdSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                                   @Override
                                                   public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                                       if (isChecked) {
-                                                          setWeekProgramDisabled();
-                                                      } else {
                                                           setWeekProgramEnabled();
+                                                      } else {
+                                                          setWeekProgramDisabled();
                                                       }
                                                   }
                                               }
@@ -228,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }).start();
                         updateCurrentTempView();
-                        if (!pressed) {
+                        if (!doNotUpdateTarget) {
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -337,11 +332,11 @@ public class MainActivity extends AppCompatActivity {
         NumberPicker numberPicker = new NumberPicker(this);
         numberPicker.setMaxValue(25);
         numberPicker.setMinValue(5);
-        numberPicker.setValue((int)targetTemperature);
+        numberPicker.setValue((int) targetTemperature);
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                targetTemperature = (double)newVal;
+                targetTemperature = (double) newVal;
             }
         });
         new AlertDialog.Builder(this).setView(numberPicker)
@@ -349,6 +344,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         sendTargetTempToServer();
+                        doNotUpdateTarget = false;
                     }
                 })
                 .create().show();
