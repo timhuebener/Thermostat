@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import java.net.ConnectException;
 
@@ -31,7 +33,8 @@ public class Settings extends AppCompatActivity {
     EditText nightTemp;
     Button cancel;
     Button confirm;
-    //Button importButton;
+    Button importButton;
+    Button setDefaultButton;
     double dayTempValue;
     double nightTempValue;
     WeekProgram wpg;
@@ -45,14 +48,16 @@ public class Settings extends AppCompatActivity {
         daytemp = (EditText) findViewById(R.id.dTemp);
         nightTemp = (EditText) findViewById(R.id.nTemp);
         cancel = (Button) findViewById(R.id.btnCancel);
-        confirm = (Button) findViewById(R.id.btnConfirm);
-        //importButton = (Button) findViewById(R.id.importButton);
+        //confirm = (Button) findViewById(R.id.btnConfirm);
+        importButton = (Button) findViewById(R.id.importSchedule);
+        setDefaultButton = (Button)findViewById(R.id.setDefault);
 
         HeatingSystem.WEEK_PROGRAM_ADDRESS = HeatingSystem.BASE_ADDRESS + "/weekProgram";
 
         setTitle("Settings");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        /*importButton.setOnClickListener(new View.OnClickListener() {
+        importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(Settings.this)
@@ -72,14 +77,35 @@ public class Settings extends AppCompatActivity {
                         })
                         .create().show();
             }
-        });*/
+        });
 
-        confirm.setOnClickListener(new View.OnClickListener() {
+        setDefaultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(Settings.this)
+                        .setMessage("Are you sure you want to reset the schedule?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                setDefault();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .create().show();
+            }
+        });
+
+        /*confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateTempsToServer();
             }
-        });
+        });*/
 
         /*daytemp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +167,7 @@ public class Settings extends AppCompatActivity {
                 Memory.storeWeekProgram(serverWpg);
             }
         }).start();
+        Toast.makeText(getApplicationContext(),"Schedule imported from server",Toast.LENGTH_LONG).show();
     }
 
     void updateTempsToServer() {
@@ -158,6 +185,7 @@ public class Settings extends AppCompatActivity {
                 }
             }
         }).start();
+        Toast.makeText(getApplicationContext(),"Temperatures updated", Toast.LENGTH_LONG).show();
     }
 
     void resetInput() {
@@ -218,7 +246,16 @@ public class Settings extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.importSetting:
+            case R.id.save:
+                updateTempsToServer();
+                break;
+            // back button
+            case 16908332:
+                System.out.println("Back");
+                NavUtils.navigateUpFromSameTask(this);
+                break;
+
+            /*case R.id.importSetting:
                 new AlertDialog.Builder(Settings.this)
                         .setMessage("Are you sure you want to import the schedule from server?" +
                                 "\n(device schedule will be overwritten)")
@@ -251,7 +288,7 @@ public class Settings extends AppCompatActivity {
                             }
                         })
                         .create().show();
-                break;
+                break;*/
         }
 
         return true;
@@ -273,6 +310,7 @@ public class Settings extends AppCompatActivity {
                 HeatingSystem.setWeekProgram(wpg);
             }
         }).start();
+        Toast.makeText(getApplicationContext(),"Schedule has been reset", Toast.LENGTH_LONG).show();
 
     }
 }

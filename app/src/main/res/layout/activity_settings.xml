@@ -31,7 +31,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="start"
-        android:layout_marginTop="80dp"
         android:layout_marginLeft="20dp">
 
 
@@ -40,8 +39,8 @@
             android:layout_height="wrap_content"
             android:text="Day Temperature:"
             android:textColor="#FFFFFF"
-            android:textSize="25dp"
-            android:layout_marginRight="28dp"/>
+            android:textSize="20dp"
+            android:layout_marginRight="25dp"/>
 
 
         <EditText
@@ -81,7 +80,7 @@
             android:layout_height="wrap_content"
             android:text="Night Temperature:"
             android:textColor="#FFFFFF"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:layout_marginRight="10dp"
             />
 
@@ -107,12 +106,43 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Set Default"
+            android:id="@+id/setDefault"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="#FFFFFF"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Import Schedule"
+            android:id="@+id/importSchedule"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="#FFFFFF"/>
+    </LinearLayout>
+
 
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
 
         <LinearLayout
@@ -120,30 +150,34 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="10dp">
+            android:layout_marginLeft="280dp"
+            android:layout_marginBottom="10dp"
+            android:weightSum="1"
+            android:layout_weight="0.32">
+
+            <!--<Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm"
+                android:id="@+id/btnConfirm"
+                android:textAllCaps="false"
+                android:backgroundTint="#FFFFFF"
+                />-->
 
 
             <Button
-                android:layout_width="175dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancel"
-                android:textSize="30dp"
+                android:text="Undo"
                 android:id="@+id/btnCancel"
                 android:textAllCaps="false"
                 android:gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
-                android:backgroundTint="#FFFFFF"/>
-
-            <Button
-                android:layout_width="175dp"
-                android:layout_height="wrap_content"
-                android:text="Confirm"
-                android:textSize="30dp"
-                android:id="@+id/btnConfirm"
-                android:textAllCaps="false"
                 android:backgroundTint="#FFFFFF"
-                />
+                android:layout_weight="1" />
+
+
 
         </LinearLayout>
 

@@ -109,6 +109,7 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
         day = Weekoverview.getLastClickedDay();
         HeatingSystem.WEEK_PROGRAM_ADDRESS = HeatingSystem.BASE_ADDRESS + "/weekProgram";
         setTitle(day);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override

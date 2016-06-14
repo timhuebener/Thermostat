@@ -48,6 +48,7 @@ public class Weekoverview extends AppCompatActivity {
         //setDefault = (Button)findViewById(R.id.setDefault);
 
         setTitle("Week Overview");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         mon.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +132,7 @@ public class Weekoverview extends AppCompatActivity {
 
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_weekoverview, menu);
@@ -162,7 +163,7 @@ public class Weekoverview extends AppCompatActivity {
         }
 
         return true;
-    }
+    }*/
 
     void switchToDay(View view) {
         Intent dayIntent = new Intent (view.getContext(), day.class);

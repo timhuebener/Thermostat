@@ -19,13 +19,15 @@
         </activity>
         <activity
             android:name=".Weekoverview"
-            android:label="Thermostat"
-            android:screenOrientation="portrait"></activity>
+            android:parentActivityName=".MainActivity">
+        </activity>
 
 
-        <activity android:name=".day"></activity>
+        <activity android:name=".day"
+            android:parentActivityName=".Weekoverview"></activity>
 
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>
