@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         //settings = (Button) findViewById(R.id.btnsettings);
 
         doNotUpdateTarget = false;
+        // backgroundmanager disabled because too difficult
+        /*BackgroundManager manager = new BackgroundManager();
+        manager.storeActiveSwitches();*/
 
         Button Schedule = (Button) findViewById(R.id.Schedule);
 
