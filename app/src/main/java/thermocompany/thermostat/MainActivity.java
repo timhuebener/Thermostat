@@ -132,8 +132,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 System.out.println("Increased temp");
-                if (targetTemperature < 30) {
-                    targetTemperature = (targetTemperature * 10 + 1) / 10; // to prevent rounding issues
+                if (targetTemperature < 29) {
+                    targetTemperature = (targetTemperature * 10 + 10) / 10; // to prevent rounding issues
                     updateTargetTempView();
                 }
                 repeatHandler.postDelayed(repeatPlus, CLICK_INTERVAL);
@@ -144,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 System.out.println("Decreased temp");
-                if (targetTemperature > 5) {
-                    targetTemperature = (targetTemperature * 10 - 1) / 10; // to prevent rounding issues
+                if (targetTemperature > 6) {
+                    targetTemperature = (targetTemperature * 10 - 10) / 10; // to prevent rounding issues
                     updateTargetTempView();
                 }
                 repeatHandler.postDelayed(repeatMinus, CLICK_INTERVAL);
@@ -158,7 +158,11 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onTouch(View v, MotionEvent event) {
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
-                                repeatHandler.post(repeatPlus);
+                                repeatHandler.postDelayed(repeatPlus, 500);
+                                if (targetTemperature < 30) {
+                                    targetTemperature = (targetTemperature * 10 + 1) / 10; // to prevent rounding issues
+                                    updateTargetTempView();
+                                }
                                 doNotUpdateTarget = true;
                                 break;
                             case MotionEvent.ACTION_UP:
@@ -181,7 +185,11 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onTouch(View v, MotionEvent event) {
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
-                                repeatHandler.post(repeatMinus);
+                                repeatHandler.postDelayed(repeatMinus, 500);
+                                if (targetTemperature > 5) {
+                                    targetTemperature = (targetTemperature * 10 - 1) / 10; // to prevent rounding issues
+                                    updateTargetTempView();
+                                }
                                 doNotUpdateTarget = true;
                                 break;
                             case MotionEvent.ACTION_UP:
