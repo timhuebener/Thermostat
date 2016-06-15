@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -43,7 +47,7 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
     ArrayList<Boolean> dayChecks;
     Button send;
     Button cancel;
-    Button save;
+    //Button save;
     int pressedSwitchIndex;
     CheckBox box0;
     CheckBox box1;
@@ -82,7 +86,7 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
         box9 = (CheckBox) findViewById(R.id.cbn9);
         send = (Button) findViewById(R.id.send);
         cancel = (Button) findViewById(R.id.cancel);
-        save = (Button) findViewById(R.id.save);
+        //save = (Button) findViewById(R.id.save);
 
         switchesNight = new EditText[]{switch0, switch1, switch2, switch3, switch4};
         switchesDay = new EditText[]{switch5, switch6, switch7, switch8, switch9};
@@ -98,13 +102,13 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
             }
         });
 
-        save.setOnClickListener(new View.OnClickListener() {
+        /*save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("Save clicked");
                 saveToDevice();
             }
-        });
+        });*/
 
         day = Weekoverview.getLastClickedDay();
         HeatingSystem.WEEK_PROGRAM_ADDRESS = HeatingSystem.BASE_ADDRESS + "/weekProgram";
@@ -212,6 +216,29 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
             }
         });
 
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_settings, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.save:
+                saveToDevice();
+                break;
+            // back button
+            case 16908332:
+                System.out.println("Back");
+                NavUtils.navigateUpFromSameTask(this);
+                break;
+        }
+
+        return true;
     }
 
     // Retrieves schedule from server and stores it in textfield, used if nothing in memory

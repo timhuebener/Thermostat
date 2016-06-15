@@ -61,21 +61,21 @@ public class MainActivity extends AppCompatActivity {
 
         Button Schedule = (Button) findViewById(R.id.Schedule);
 
-        Schedule.setOnClickListener(new View.OnClickListener() {
+        /*Schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent weekIntent = new Intent(view.getContext(), Weekoverview.class);
                 startActivity(weekIntent);
             }
-        });
+        });*/
 
-        tempTarget.setOnClickListener(new View.OnClickListener() {
+        /*tempTarget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 doNotUpdateTarget = true;
                 showNumberPicker();
             }
-        });
+        });*/
 
 
         /*settings.setOnClickListener(new View.OnClickListener() {
@@ -268,6 +268,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent settingsIntent = new Intent(this, Settings.class);
                 startActivity(settingsIntent);
                 break;
+            case R.id.scheduleSetting:
+                Intent weekIntent = new Intent(this, Weekoverview.class);
+                startActivity(weekIntent);
+                break;
         }
 
         return true;
@@ -340,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void showNumberPicker() {
+    /*void showNumberPicker() {
         NumberPicker numberPicker = new NumberPicker(this);
         numberPicker.setMaxValue(30);
         numberPicker.setMinValue(5);
@@ -360,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .create().show();
-    }
+    }*/
 
 
 }
