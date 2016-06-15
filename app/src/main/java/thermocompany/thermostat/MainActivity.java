@@ -236,6 +236,22 @@ public class MainActivity extends AppCompatActivity {
                             currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
                             timeValue = HeatingSystem.get("time");
                             dayValue = HeatingSystem.get("day");
+                            if (HeatingSystem.getVacationMode()) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        holdSwitch.setChecked(false);
+                                    }
+                                });
+                            } else {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        holdSwitch.setChecked(true);
+                                    }
+                                });
+                            }
+
                         } catch (ConnectException e) {
                             e.printStackTrace();
                         }
