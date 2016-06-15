@@ -1,11 +1,9 @@
 package thermocompany.thermostat;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,8 +25,11 @@ public class MainActivity extends AppCompatActivity {
     double currentTemperature;
     Button plus;
     Button minus;
+    String timeValue;
+    String dayValue;
     CountDownTimer refreshTimer;
     ToggleButton holdButton;
+    TextView time;
     Handler repeatHandler;
     Runnable repeatPlus;
     Runnable repeatMinus;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         plus.setLongClickable(true);
         minus.setLongClickable(true);
         repeatHandler = new Handler();
+        time = (TextView)findViewById(R.id.time);
         holdSwitch = (android.widget.Switch) findViewById(R.id.scheduleOnOff);
         //settings = (Button) findViewById(R.id.btnsettings);
 
@@ -93,11 +95,14 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
                     currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
+                    timeValue = HeatingSystem.get("time");
+                    dayValue = HeatingSystem.get("day");
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             updateTargetTempView();
                             updateCurrentTempView();
+                            updateTimeView();
                         }
                     });
 
@@ -229,12 +234,15 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         try {
                             currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
+                            timeValue = HeatingSystem.get("time");
+                            dayValue = HeatingSystem.get("day");
                         } catch (ConnectException e) {
                             e.printStackTrace();
                         }
                     }
                 }).start();
                 updateCurrentTempView();
+                updateTimeView();
                 if (!doNotUpdateTarget) {
                     new Thread(new Runnable() {
                         @Override
@@ -342,6 +350,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
 
+    }
+
+    void updateTimeView() {
+        String current = (dayValue+", "+timeValue);
+        time.setText(current);
     }
 
     /*void showNumberPicker() {
