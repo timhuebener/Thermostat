@@ -1,6 +1,5 @@
 package thermocompany.thermostat;
 
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import util.*;
 
@@ -45,7 +43,7 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
     ArrayList<String> dayTimes;
     ArrayList<Boolean> nightChecks;
     ArrayList<Boolean> dayChecks;
-    Button send;
+    //Button apply;
     Button cancel;
     //Button save;
     int pressedSwitchIndex;
@@ -59,6 +57,7 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
     CheckBox box7;
     CheckBox box8;
     CheckBox box9;
+    String[] days;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +83,12 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
         box7 = (CheckBox) findViewById(R.id.cbn7);
         box8 = (CheckBox) findViewById(R.id.cbn8);
         box9 = (CheckBox) findViewById(R.id.cbn9);
-        send = (Button) findViewById(R.id.send);
+        boxAllDays = (CheckBox)findViewById(R.id.chAllDays);
+        //apply = (Button) findViewById(R.id.send);
         cancel = (Button) findViewById(R.id.cancel);
         //save = (Button) findViewById(R.id.save);
+        days = new String[]{"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"
+        ,"Sunday"};
 
         switchesNight = new EditText[]{switch0, switch1, switch2, switch3, switch4};
         switchesDay = new EditText[]{switch5, switch6, switch7, switch8, switch9};
@@ -115,13 +117,12 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
         setTitle(day);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        send.setOnClickListener(new View.OnClickListener() {
+        /*apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Send clicked");
-                sendToServer();
+                applyToAll();
             }
-        });
+        });*/
 
         localWpg = Memory.getWeekProgram();
         if (localWpg == null) {
@@ -229,7 +230,7 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
         switch (item.getItemId()) {
 
             case R.id.save:
-                saveToDevice();
+                sendToServer();
                 break;
             // back button
             case 16908332:
@@ -264,6 +265,16 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
         }).start();
     }
 
+    void applyToAll() {
+        localWpg.data.get(day);
+        for (int i=0; i<7; i++) {
+            for (int k=0; k<10; k++) {
+                localWpg.data.get(days[i]).set(k, localWpg.data.get(day).get(k));
+            }
+        }
+        Memory.storeWeekProgram(localWpg);
+    }
+
 
     // stores schedule in memory
     void saveToDevice() {
@@ -279,16 +290,6 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
             localWpg.data.get(day).set(i, new Switch("day", checked, time));
         }
         Memory.storeWeekProgram(localWpg);
-
-        // disabled because sorting is disabled, no function
-        // printWeekProgramToTextFields(localWpg);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "Saved schedule" +
-                        " to device", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     // saves schedule that is on screen and then sends it to the server
@@ -297,6 +298,10 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
             @Override
             public void run() {
                 saveToDevice();
+                if (boxAllDays.getChecked()) {
+                    applyToAll();
+                }
+
                 HeatingSystem.setWeekProgram(localWpg);
             }
         }).start();
