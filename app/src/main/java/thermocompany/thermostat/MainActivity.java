@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         /*BackgroundManager manager = new BackgroundManager();
         manager.storeActiveSwitches();*/
 
-        Button Schedule = (Button) findViewById(R.id.Schedule);
+       // Button Schedule = (Button) findViewById(R.id.Schedule);
 
         /*Schedule.setOnClickListener(new View.OnClickListener() {
             @Override
