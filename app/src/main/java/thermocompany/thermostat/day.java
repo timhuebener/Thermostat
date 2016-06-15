@@ -57,6 +57,7 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
     CheckBox box7;
     CheckBox box8;
     CheckBox box9;
+    CheckBox boxAllDays;
     String[] days;
 
     @Override
@@ -83,7 +84,7 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
         box7 = (CheckBox) findViewById(R.id.cbn7);
         box8 = (CheckBox) findViewById(R.id.cbn8);
         box9 = (CheckBox) findViewById(R.id.cbn9);
-        boxAllDays = (CheckBox)findViewById(R.id.chAllDays);
+        boxAllDays = (CheckBox)findViewById(R.id.cbAllDays);
         //apply = (Button) findViewById(R.id.send);
         cancel = (Button) findViewById(R.id.cancel);
         //save = (Button) findViewById(R.id.save);
@@ -298,7 +299,7 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
             @Override
             public void run() {
                 saveToDevice();
-                if (boxAllDays.getChecked()) {
+                if (boxAllDays.isChecked()) {
                     applyToAll();
                 }
 
