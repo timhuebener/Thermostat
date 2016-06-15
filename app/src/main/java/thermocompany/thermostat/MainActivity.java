@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     //TextView tempTarget;
     TextView tempCurrent;
-    EditText tempTarget;
+    TextView tempTarget;
     double targetTemperature;
     double currentTemperature;
     Button plus;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         HeatingSystem.BASE_ADDRESS = "http://wwwis.win.tue.nl/2id40-ws/60";
-        tempTarget = (EditText) findViewById(R.id.temp);
+        tempTarget = (TextView) findViewById(R.id.temp);
         tempCurrent = (TextView) findViewById(R.id.tempActual);
         plus = (Button) findViewById(R.id.plus);
         minus = (Button) findViewById(R.id.minus);
