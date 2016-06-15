@@ -2,8 +2,10 @@ package thermocompany.thermostat;
 
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -127,10 +129,26 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
 
         localWpg = Memory.getWeekProgram();
         if (localWpg == null) {
-            System.out.println("No schedule found on device, retrieving from server");
-            Toast.makeText(getApplicationContext(), "No schedule found on device, " +
-                    "retrieved from server", Toast.LENGTH_LONG).show();
-            retrieveFromServer();
+            new AlertDialog.Builder(day.this)
+                    .setMessage("No schedule found on device, do you want to import from server?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            retrieveFromServer();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            localWpg = new WeekProgram();
+                            localWpg.setDefault();
+                            Memory.storeWeekProgram(localWpg);
+                            printWeekProgramToTextFields(localWpg);
+                            dialog.cancel();
+                        }
+                    })
+                    .create().show();
+
         } else {
             System.out.println("Schedule found on device, retrieving from device");
             localWpg = Memory.getWeekProgram();
