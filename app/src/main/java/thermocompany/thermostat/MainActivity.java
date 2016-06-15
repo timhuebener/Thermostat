@@ -18,7 +18,6 @@ import util.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    //TextView tempTarget;
     TextView tempCurrent;
     TextView tempTarget;
     double targetTemperature;
@@ -28,13 +27,11 @@ public class MainActivity extends AppCompatActivity {
     String timeValue;
     String dayValue;
     CountDownTimer refreshTimer;
-    ToggleButton holdButton;
     TextView time;
     Handler repeatHandler;
     Runnable repeatPlus;
     Runnable repeatMinus;
     final int CLICK_INTERVAL = 300;
-    //Button settings;
     Boolean doNotUpdateTarget;
     android.widget.Switch holdSwitch;
 
@@ -48,47 +45,15 @@ public class MainActivity extends AppCompatActivity {
         tempCurrent = (TextView) findViewById(R.id.tempActual);
         plus = (Button) findViewById(R.id.plus);
         minus = (Button) findViewById(R.id.minus);
-        //holdButton = (ToggleButton) findViewById(R.id.BtnHold);
         plus.setLongClickable(true);
         minus.setLongClickable(true);
         repeatHandler = new Handler();
-        time = (TextView)findViewById(R.id.time);
+        time = (TextView) findViewById(R.id.time);
         holdSwitch = (android.widget.Switch) findViewById(R.id.scheduleOnOff);
-        //settings = (Button) findViewById(R.id.btnsettings);
-
         doNotUpdateTarget = false;
-        // backgroundmanager disabled because too difficult
-        /*BackgroundManager manager = new BackgroundManager();
-        manager.storeActiveSwitches();*/
-
-       // Button Schedule = (Button) findViewById(R.id.Schedule);
-
-        /*Schedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent weekIntent = new Intent(view.getContext(), Weekoverview.class);
-                startActivity(weekIntent);
-            }
-        });*/
-
-        /*tempTarget.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doNotUpdateTarget = true;
-                showNumberPicker();
-            }
-        });*/
-
-
-        /*settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent settingsIntent = new Intent(view.getContext(), Settings.class);
-                startActivity(settingsIntent);
-            }
-        });*/
 
         // this part sets the initial values of the target and current temperature
+        // and of the day value and time
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -97,6 +62,14 @@ public class MainActivity extends AppCompatActivity {
                     currentTemperature = Double.parseDouble(HeatingSystem.get("currentTemperature"));
                     timeValue = HeatingSystem.get("time");
                     dayValue = HeatingSystem.get("day");
+                    if (HeatingSystem.getVacationMode()) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                holdSwitch.setChecked(false);
+                            }
+                        });
+                    }
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -111,27 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String weekProgramState = HeatingSystem.get("weekProgramState");
-                    if (weekProgramState.equals("off")) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                holdSwitch.setChecked(false);
-                            }
-                        });
-                    }
-                } catch (ConnectException e) {
-                    e.printStackTrace();
-                }
-                ;
-            }
-        }).start();
-
 
         repeatPlus = new Runnable() {
             @Override
@@ -183,9 +135,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         minus.setOnTouchListener(
-                new View.OnTouchListener()
-
-                {
+                new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         switch (event.getAction()) {
@@ -220,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-
         );
 
         refreshTimer = new CountDownTimer(1000, 1000) {
@@ -257,8 +206,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }).start();
-                updateCurrentTempView();
-                updateTimeView();
+
                 if (!doNotUpdateTarget) {
                     new Thread(new Runnable() {
                         @Override
@@ -272,6 +220,8 @@ public class MainActivity extends AppCompatActivity {
                     }).start();
                     updateTargetTempView();
                 }
+                updateCurrentTempView();
+                updateTimeView();
                 refreshTimer.start();
             }
 
@@ -301,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // disable week program
     void setWeekProgramDisabled() {
         new Thread(new Runnable() {
             @Override
@@ -314,28 +265,22 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
+    // enable week program
     void setWeekProgramEnabled() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     HeatingSystem.put("weekProgramState", "on");
-                    try {
-                        targetTemperature = Double.parseDouble(HeatingSystem.get("targetTemperature"));
-                    } catch (ConnectException e) {
-                        e.printStackTrace();
-                    }
                 } catch (InvalidInputValueException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
 
-        System.out.println(targetTemperature);
-        updateTargetTempView(); // does not update correctly, maybe thread is not finished
     }
 
-
+    // update the target temperature textview
     void updateTargetTempView() {
         runOnUiThread(new Runnable() {
             @Override
@@ -345,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // update the current temperature textview
     void updateCurrentTempView() {
         runOnUiThread(new Runnable() {
             @Override
@@ -354,6 +300,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // update the time textview
+    void updateTimeView() {
+        String current = (dayValue + ", " + timeValue);
+        time.setText(current);
+    }
+
+    // send the target temperature to server
     void sendTargetTempToServer() {
         new Thread(new Runnable() {
             @Override
@@ -367,33 +320,4 @@ public class MainActivity extends AppCompatActivity {
         }).start();
 
     }
-
-    void updateTimeView() {
-        String current = (dayValue+", "+timeValue);
-        time.setText(current);
-    }
-
-    /*void showNumberPicker() {
-        NumberPicker numberPicker = new NumberPicker(this);
-        numberPicker.setMaxValue(30);
-        numberPicker.setMinValue(5);
-        numberPicker.setValue((int) targetTemperature);
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                targetTemperature = (double) newVal;
-            }
-        });
-        new AlertDialog.Builder(this).setView(numberPicker)
-                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        sendTargetTempToServer();
-                        doNotUpdateTarget = false;
-                    }
-                })
-                .create().show();
-    }*/
-
-
 }
