@@ -26,9 +26,7 @@ public class Weekoverview extends AppCompatActivity {
     Button fri;
     Button sat;
     Button sun;
-    //Button setDefault;
     static String day;
-    WeekProgram wpg;
 
 
     @Override
@@ -38,14 +36,13 @@ public class Weekoverview extends AppCompatActivity {
 
         HeatingSystem.WEEK_PROGRAM_ADDRESS = HeatingSystem.BASE_ADDRESS + "/weekProgram";
 
-        mon = (Button)findViewById(R.id.monday);
-        tue = (Button)findViewById(R.id.tuesday);
-        wed = (Button)findViewById(R.id.wednesday);
-        thu = (Button)findViewById(R.id.thursday);
-        fri = (Button)findViewById(R.id.friday);
-        sat = (Button)findViewById(R.id.saturday);
-        sun = (Button)findViewById(R.id.sunday);
-        //setDefault = (Button)findViewById(R.id.setDefault);
+        mon = (Button) findViewById(R.id.monday);
+        tue = (Button) findViewById(R.id.tuesday);
+        wed = (Button) findViewById(R.id.wednesday);
+        thu = (Button) findViewById(R.id.thursday);
+        fri = (Button) findViewById(R.id.friday);
+        sat = (Button) findViewById(R.id.saturday);
+        sun = (Button) findViewById(R.id.sunday);
 
         setTitle("Week Overview");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -107,66 +104,11 @@ public class Weekoverview extends AppCompatActivity {
             }
         });
 
-        /*setDefault.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(Weekoverview.this)
-                        .setMessage("Are you sure you want to reset the schedule?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                setDefault();
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        })
-                        .create().show();
-
-
-            }
-        });*/
-
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_weekoverview, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.reset:
-                new AlertDialog.Builder(Weekoverview.this)
-                        .setMessage("Are you sure you want to reset the schedule?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                setDefault();
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        })
-                        .create().show();
-                break;
-        }
-
-        return true;
-    }*/
-
+    // switches to corresponding day activity
     void switchToDay(View view) {
-        Intent dayIntent = new Intent (view.getContext(), day.class);
+        Intent dayIntent = new Intent(view.getContext(), day.class);
         startActivity(dayIntent);
     }
 
@@ -176,23 +118,5 @@ public class Weekoverview extends AppCompatActivity {
 
     void setLastClickedDay(String day) {
         this.day = day;
-    }
-
-    void setDefault() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    wpg = HeatingSystem.getWeekProgram();
-                } catch (ConnectException e) {
-                    e.printStackTrace();
-                } catch (CorruptWeekProgramException e) {
-                    e.printStackTrace();
-                }
-                wpg.setDefault();
-                HeatingSystem.setWeekProgram(wpg);
-            }
-        }).start();
-
     }
 }

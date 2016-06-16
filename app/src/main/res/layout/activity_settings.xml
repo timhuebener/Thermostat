@@ -112,7 +112,7 @@
         <Button
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Set Default"
+            android:text="Clear Schedule"
             android:id="@+id/setDefault"
             android:textAllCaps="false"
             android:gravity="center"

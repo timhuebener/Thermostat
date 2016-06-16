@@ -40,14 +40,11 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
     EditText[] switchesDay;
     CheckBox[] boxesNight;
     CheckBox[] boxesDay;
-    Button retrieve;
     ArrayList<String> nightTimes;
     ArrayList<String> dayTimes;
     ArrayList<Boolean> nightChecks;
     ArrayList<Boolean> dayChecks;
-    //Button apply;
     Button cancel;
-    //Button save;
     int pressedSwitchIndex;
     CheckBox box0;
     CheckBox box1;
@@ -86,12 +83,10 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
         box7 = (CheckBox) findViewById(R.id.cbn7);
         box8 = (CheckBox) findViewById(R.id.cbn8);
         box9 = (CheckBox) findViewById(R.id.cbn9);
-        boxAllDays = (CheckBox)findViewById(R.id.cbAllDays);
-        //apply = (Button) findViewById(R.id.send);
+        boxAllDays = (CheckBox) findViewById(R.id.cbAllDays);
         cancel = (Button) findViewById(R.id.cancel);
-        //save = (Button) findViewById(R.id.save);
-        days = new String[]{"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"
-        ,"Sunday"};
+        days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+                , "Sunday"};
 
         switchesNight = new EditText[]{switch0, switch1, switch2, switch3, switch4};
         switchesDay = new EditText[]{switch5, switch6, switch7, switch8, switch9};
@@ -107,25 +102,10 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
             }
         });
 
-        /*save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Save clicked");
-                saveToDevice();
-            }
-        });*/
-
         day = Weekoverview.getLastClickedDay();
         HeatingSystem.WEEK_PROGRAM_ADDRESS = HeatingSystem.BASE_ADDRESS + "/weekProgram";
         setTitle(day);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        /*apply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                applyToAll();
-            }
-        });*/
 
         localWpg = Memory.getWeekProgram();
         if (localWpg == null) {
@@ -284,10 +264,11 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
         }).start();
     }
 
+    // applies switches to all days
     void applyToAll() {
         localWpg.data.get(day);
-        for (int i=0; i<7; i++) {
-            for (int k=0; k<10; k++) {
+        for (int i = 0; i < 7; i++) {
+            for (int k = 0; k < 10; k++) {
                 localWpg.data.get(days[i]).set(k, localWpg.data.get(day).get(k));
             }
         }
@@ -328,6 +309,7 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
                 " to server", Toast.LENGTH_LONG).show();
     }
 
+    // prints the week program to text fields
     void printWeekProgramToTextFields(WeekProgram wpg) {
         nightTimes = new ArrayList<>();
         dayTimes = new ArrayList<>();
@@ -345,10 +327,6 @@ public class day extends AppCompatActivity implements TimePickerDialog.OnTimeSet
             }
 
         }
-
-        // Sorting does not work well with the boxes atm
-        //Collections.sort(nightTimes);
-        //Collections.sort(dayTimes);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
