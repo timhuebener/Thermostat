@@ -302,8 +302,14 @@ public class MainActivity extends AppCompatActivity {
 
     // update the time textview
     void updateTimeView() {
-        String current = (dayValue + ", " + timeValue);
-        time.setText(current);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String current = (dayValue + ", " + timeValue);
+                time.setText(current);
+            }
+        });
+
     }
 
     // send the target temperature to server
