@@ -30,7 +30,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="top"
-        android:layout_marginTop="15dp">
+        >
 
         <TextView
         android:layout_width="wrap_content"
@@ -49,11 +49,12 @@
         <!--The top linear layout that displays the actual temperature-->
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="250dp"
+            android:layout_height="225dp"
             android:orientation="vertical"
             android:layout_gravity="center_vertical|center_horizontal"
             android:gravity="center_vertical|center_horizontal"
-            android:layout_marginRight="0dp">
+            android:layout_marginRight="0dp"
+            >
 
 
 
@@ -64,7 +65,8 @@
                 android:layout_height="wrap_content"
                 android:text="Current Temperature"
                 android:textColor="#FFFFFF"
-                android:textSize="18dp"/>
+                android:textSize="18dp"
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -197,7 +199,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/scheduleOnOff"
-            android:checked="true"
+            android:checked="false"
             android:gravity="center"
             android:backgroundTint="#ffffff"
             android:drawableTint="#ffffff" />
