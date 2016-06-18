@@ -361,13 +361,15 @@
             android:layout_height="wrap_content"
             android:text="Apply to all days?"
             android:textSize="20dp"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+                android:layout_marginTop="10dp"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/cbAllDays"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 
